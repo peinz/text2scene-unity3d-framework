@@ -38,22 +38,22 @@ namespace WoLfulus.LineEnding
                     EditorPrefs.SetString(ConfigurationId, "win");
                 }
 
-                Menu.SetChecked(MenuWindows, false);
-                Menu.SetChecked(MenuUnix, false);
-                Menu.SetChecked(MenuMac, false);
+                // Menu.SetChecked(MenuWindows, false);
+                // Menu.SetChecked(MenuUnix, false);
+                // Menu.SetChecked(MenuMac, false);
 
                 var type = EditorPrefs.GetString(ConfigurationId);
                 if (type == "win")
                 {
-                    Menu.SetChecked(MenuWindows, true);
+                    // Menu.SetChecked(MenuWindows, true);
                 }
                 else if (type == "unix")
                 {
-                    Menu.SetChecked(MenuUnix, true);
+                    // Menu.SetChecked(MenuUnix, true);
                 }
                 else if (type == "mac")
                 {
-                    Menu.SetChecked(MenuMac, true);
+                    // Menu.SetChecked(MenuMac, true);
                 }
             };
         }
@@ -64,9 +64,9 @@ namespace WoLfulus.LineEnding
         [MenuItem(MenuWindows)]
         private static void SetWindows()
         {
-            Menu.SetChecked(MenuWindows, true);
-            Menu.SetChecked(MenuUnix, false);
-            Menu.SetChecked(MenuMac, false);
+            // Menu.SetChecked(MenuWindows, true);
+            // Menu.SetChecked(MenuUnix, false);
+            // Menu.SetChecked(MenuMac, false);
             Debug.Log("Line endings changed to Windows");
             EditorPrefs.SetString(ConfigurationId, "win");
         }
@@ -77,9 +77,9 @@ namespace WoLfulus.LineEnding
         [MenuItem(MenuUnix)]
         private static void SetUnix()
         {
-            Menu.SetChecked(MenuWindows, false);
-            Menu.SetChecked(MenuUnix, true);
-            Menu.SetChecked(MenuMac, false);
+            // Menu.SetChecked(MenuWindows, false);
+            // Menu.SetChecked(MenuUnix, true);
+            // Menu.SetChecked(MenuMac, false);
             Debug.Log("Line endings changed to Unix");
             EditorPrefs.SetString(ConfigurationId, "unix");
         }
@@ -90,9 +90,9 @@ namespace WoLfulus.LineEnding
         [MenuItem(MenuMac)]
         private static void SetMac()
         {
-            Menu.SetChecked(MenuWindows, false);
-            Menu.SetChecked(MenuUnix, false);
-            Menu.SetChecked(MenuMac, true);
+            // Menu.SetChecked(MenuWindows, false);
+            // Menu.SetChecked(MenuUnix, false);
+            // Menu.SetChecked(MenuMac, true);
             Debug.Log("Line endings changed to Mac OSX");
             EditorPrefs.SetString(ConfigurationId, "mac");
         }
