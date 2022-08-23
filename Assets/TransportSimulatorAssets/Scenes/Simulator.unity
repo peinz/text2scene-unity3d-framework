@@ -8532,7 +8532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &934724749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14071,7 +14071,7 @@ MonoBehaviour:
   _initializeOnStart: 0
   _imagery:
     _layerProperty:
-      sourceType: 5
+      sourceType: 7
       sourceOptions:
         isActive: 1
         layerSource:
@@ -14173,18 +14173,18 @@ MonoBehaviour:
           filters: []
           combinerType: 0
         extrusionOptions:
-          _selectedLayerName: 
+          _selectedLayerName: building
           extrusionType: 1
           extrusionGeometryType: 0
           propertyName: height
-          propertyDescription: 
+          propertyDescription: Number. Height of building or part of building.
           minimumHeight: 0
           maximumHeight: 1
           extrusionScaleFactor: 1
         colliderOptions:
           colliderType: 0
         materialOptions:
-          style: 4
+          style: 2
           texturingType: 0
           materials:
           - Materials:
@@ -17587,6 +17587,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663732223190748677, guid: ee1288809948ebe4f82c9ef64518a36a,
+        type: 3}
+      propertyPath: m_MoveSpeed
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 5663732223190748678, guid: ee1288809948ebe4f82c9ef64518a36a,
         type: 3}

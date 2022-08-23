@@ -207,6 +207,7 @@ class MapBuilder : MonoBehaviour
                 station_object = Instantiate(StationPrefab) as GameObject;
                 OsmNode new_station = MapReader.nodes[NodeID];
                 Vector3 new_station_position = new_station - MapReader.bounds.Centre;
+                new_station_position.y = -3;
                 station_object.transform.position = new_station_position;
 
                 // Is being set so that on this position, no new stations are being generated.
