@@ -35,8 +35,6 @@ class MapBuilder : MonoBehaviour
 {
     public GameObject StationPrefab; // Station objects.
     public GameObject StationUIPrefab; // Station-UI.
-    public GameObject buildings; // Mapbox 3D buildings.
-    public GameObject roads; // Mapbox map.
     public GameObject InGameLoadingScreen; // Shows the loading percentage.
     public GameObject InGameLoadingMessage; // Shows loading message.
     public GameObject InGameLoadingWindow; // Show loading windows.
@@ -82,20 +80,6 @@ class MapBuilder : MonoBehaviour
             yield return null;
         }
 
-        if (UserPreferences.Buildings)
-        {
-            // 3D buildings are being instantiated.
-            GameObject MapboxBuildings = Instantiate(buildings);
-            MapboxBuildings.transform.localScale = new Vector3(1.223f, 1.22264f, 1.219f);
-            MapboxBuildings.transform.localPosition = new Vector3(0, -0.1f, 0);
-        }
-        if (UserPreferences.AllStreets)
-        {
-            // The map is being instantiated.
-            GameObject MapboxRoads = Instantiate(roads);
-            MapboxRoads.transform.localScale = new Vector3(1.223f, 1.22264f, 1.219f);
-            MapboxRoads.transform.localPosition = new Vector3(0, -0.1f, 0);
-        }
         if(UserPreferences.PublicTransportRailways || UserPreferences.PublicTransportStreets)
         {
             StartCoroutine(WayBuilder()); // Roads and railroads are being instantiated.

@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 using UnityEngine.SceneManagement;
+using Mapbox.Unity.Map;
+using Mapbox.Utils;
+using Mapbox.Unity.Map.TileProviders;
 
 // This software has been further expanded by Alen Smajic (2020).
 
@@ -36,6 +39,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 class MapReader : MonoBehaviour
 {
+    public GameObject MapboxMapGameObject;
     public static OsmBounds bounds;
 
     public static Dictionary<ulong, OsmNode> nodes;
@@ -60,7 +64,7 @@ class MapReader : MonoBehaviour
             // The XML file is being loaded and the data nodes are being extracted using
             // the classes from the serialization folder.
             // doc.Load(FileLoader.ResourceFilePath);
-            doc.Load("/Users/peinz/Desktop/map.txt");
+            doc.Load("/Users/peinz/Desktop/map2.txt");
             SetBounds(doc.SelectSingleNode("/osm/bounds"));
             if (UserPreferences.PublicTransportStreets || UserPreferences.PublicTransportRailways || UserPreferences.Stations)
             {
@@ -95,6 +99,23 @@ class MapReader : MonoBehaviour
     void SetBounds(XmlNode xmlNode)
     {
         bounds = new OsmBounds(xmlNode);
+
+        // configure mapBoxMap
+        AbstractMap MapboxMap = MapboxMapGameObject.GetComponent<AbstractMap>();
+
+        MapboxMap.Initialize(new Vector2d(bounds.Centre.x, bounds.Centre.y), 15);
+
+        RangeTileProvider tileProvider = new RangeTileProvider();
+        RangeTileProviderOptions tileProviderOptions = new RangeTileProviderOptions();
+        tileProviderOptions.SetOptions(OsmBounds.LenghtFactor, OsmBounds.WidthFactor, OsmBounds.LenghtFactor, OsmBounds.WidthFactor);
+        tileProvider.SetOptions(tileProviderOptions);
+        MapboxMap.TileProvider = tileProvider;
+
+        MapboxMap.SetZoom(15.29f);
+
+        MapboxMap.UpdateMap();
+
+        MapboxMap.Terrain.EnableCollider(true);
     }
 
     /// <summary>
