@@ -56,6 +56,12 @@ class BaseOsm
         string strValue = attributes[attrName].Value;
         return float.Parse(strValue, new CultureInfo("en-US").NumberFormat);
     }
+
+    protected double GetDouble(string attrName, XmlAttributeCollection attributes)
+    {
+        string strValue = attributes[attrName].Value;
+        return double.Parse(strValue, new CultureInfo("en-US").NumberFormat);
+    }
 }
 
 

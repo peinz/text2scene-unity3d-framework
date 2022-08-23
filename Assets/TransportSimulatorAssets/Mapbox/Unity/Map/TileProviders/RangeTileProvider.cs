@@ -12,15 +12,12 @@ namespace Mapbox.Unity.Map.TileProviders
 		{
 			if (Options != null)
 			{
-                //_rangeTileProviderOptions = (RangeTileProviderOptions)Options;
-                _rangeTileProviderOptions = new RangeTileProviderOptions();
-            }
-            /*
+				_rangeTileProviderOptions = (RangeTileProviderOptions)Options;
+			}
 			else
 			{
 				_rangeTileProviderOptions = new RangeTileProviderOptions();
 			}
-            */
 
 			_initialized = true;
 			_currentExtent.activeTiles = new HashSet<UnwrappedTileId>();

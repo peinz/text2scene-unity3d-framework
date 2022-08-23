@@ -6,24 +6,24 @@
 	[Serializable]
 	public class RangeTileProviderOptions : ExtentOptions
 	{
-        [Range(0, 10)]
-		public int west = OsmBounds.LenghtFactor;
 		[Range(0, 10)]
-		public int north = OsmBounds.WidthFactor;
+		public int west = 1;
 		[Range(0, 10)]
-		public int east = OsmBounds.LenghtFactor;
+		public int north = 1;
 		[Range(0, 10)]
-		public int south = OsmBounds.WidthFactor;
+		public int east = 1;
+		[Range(0, 10)]
+		public int south = 1;
 
 		public override void SetOptions(ExtentOptions extentOptions)
 		{
 			RangeTileProviderOptions options = extentOptions as RangeTileProviderOptions;
 			if (options != null)
 			{
-                west = options.west;
-                north = options.north;
-                east = options.east;
-                south = options.south;
+				west = options.west;
+				north = options.north;
+				east = options.east;
+				south = options.south;
 			}
 			else
 			{

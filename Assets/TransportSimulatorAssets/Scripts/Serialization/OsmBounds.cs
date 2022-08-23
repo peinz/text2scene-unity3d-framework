@@ -34,14 +34,15 @@ using System.Xml;
 /// </summary>
 class OsmBounds : BaseOsm
 {
-    public float MinLat { get; private set; }
+    public double MinLat { get; private set; }
 
-    public float MaxLat { get; private set; }
+    public double MaxLat { get; private set; }
 
-    public float MinLon { get; private set; }
+    public double MinLon { get; private set; }
 
-    public float MaxLon { get; private set; }
+    public double MaxLon { get; private set; }
 	
+    public Vector3 CenterLatLon { get; private set; } 
     public Vector3 Centre { get; private set; } 
 
     public string BuildingCentre { get; private set; } 
@@ -56,17 +57,18 @@ class OsmBounds : BaseOsm
     /// <param name="node">XML node parameter</param>
     public OsmBounds(XmlNode node)
     {
-        MinLat = GetFloat("minlat", node.Attributes);
-        MaxLat = GetFloat("maxlat", node.Attributes);
-        MinLon = GetFloat("minlon", node.Attributes);
-        MaxLon = GetFloat("maxlon", node.Attributes);
+        MinLat = GetDouble("minlat", node.Attributes);
+        MaxLat = GetDouble("maxlat", node.Attributes);
+        MinLon = GetDouble("minlon", node.Attributes);
+        MaxLon = GetDouble("maxlon", node.Attributes);
 
         // Longitude and Latitude are being converted to Unity coordinates using the Mercator-Projection.
-        float x = (float)((MercatorProjection.lonToX(MaxLon) + MercatorProjection.lonToX(MinLon)) / 2);
-        float y = (float)((MercatorProjection.latToY(MaxLat) + MercatorProjection.latToY(MinLat)) / 2);
+        var x = ((MercatorProjection.lonToX(MaxLon) + MercatorProjection.lonToX(MinLon)) / 2);
+        var y = ((MercatorProjection.latToY(MaxLat) + MercatorProjection.latToY(MinLat)) / 2);
 
         // Reference for manually generated objects position.
-        Centre = new Vector3(x, 0, y);
+        CenterLatLon = new Vector3((float)MercatorProjection.yToLat(y), (float)MercatorProjection.xToLon(x), 0);
+        Centre = new Vector3((float)x, 0, (float)y);
 
         string x_2 = ((MaxLat + MinLat) / 2).ToString(CultureInfo.InvariantCulture);
         string y_2 = ((MaxLon + MinLon) / 2).ToString(CultureInfo.InvariantCulture);
@@ -75,7 +77,7 @@ class OsmBounds : BaseOsm
         BuildingCentre = x_2 + ", " + y_2;
 
         // Reference for Mapbox objects scale.
-        SetMapboxFactor(MaxLon, MinLon, MaxLat, MinLat);
+        SetMapboxFactor((float)MaxLon, (float)MinLon, (float)MaxLat, (float)MinLat);
     }
 
     /// <summary>

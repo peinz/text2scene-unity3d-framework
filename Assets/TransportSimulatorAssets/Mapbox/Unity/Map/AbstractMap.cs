@@ -716,8 +716,7 @@ namespace Mapbox.Unity.Map
 			Options = options;
 			_worldHeightFixed = false;
 			_fileSource = MapboxAccess.Instance;
-            //_centerLatitudeLongitude = Conversions.StringToLatLon(options.locationOptions.latitudeLongitude);
-            _centerLatitudeLongitude = Conversions.StringToLatLon(MapReader.bounds.BuildingCentre);
+			_centerLatitudeLongitude = Conversions.StringToLatLon(options.locationOptions.latitudeLongitude);
 			_initialZoom = (int)options.locationOptions.zoom;
 
 			options.scalingOptions.scalingStrategy.SetUpScaling(this);

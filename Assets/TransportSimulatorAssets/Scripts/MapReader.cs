@@ -103,7 +103,7 @@ class MapReader : MonoBehaviour
         // configure mapBoxMap
         AbstractMap MapboxMap = MapboxMapGameObject.GetComponent<AbstractMap>();
 
-        MapboxMap.Initialize(new Vector2d(bounds.Centre.x, bounds.Centre.y), 15);
+        MapboxMap.Initialize(new Vector2d(bounds.CenterLatLon.x, bounds.CenterLatLon.y), 15);
 
         RangeTileProvider tileProvider = new RangeTileProvider();
         RangeTileProviderOptions tileProviderOptions = new RangeTileProviderOptions();
