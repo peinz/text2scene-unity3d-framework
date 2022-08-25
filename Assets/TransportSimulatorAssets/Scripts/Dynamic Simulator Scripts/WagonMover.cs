@@ -47,20 +47,23 @@ public class WagonMover : MonoBehaviour
 
     float velocity = 1f; 
 
-    void Start()
+    List<Vector3> targetWaypoints = new List<Vector3>();
+    List<Vector3> pathLastNode = new List<Vector3>();
+
+    public void Initialize(GameObject _wagonToFollow, Vector3 position, List<Vector3> _targetWaypoints, List<Vector3> _pathLastNode)
     {
-        transform.position = SortWay.PathsInRightOrder[0][0]; // Starting point for the vehicle.
+        targetWaypoints = _targetWaypoints;
+        pathLastNode = _pathLastNode;
 
-        List<GameObject> allGameObjects = new List<GameObject>();
-        Scene scene = SceneManager.GetActiveScene();
-        scene.GetRootGameObjects(allGameObjects);
+        transform.position = position;
 
-        // The object which is being followed is set to be the last object which was generated in the Unity scene.
-        WagonToFollow = allGameObjects[allGameObjects.Count - 2];
+        WagonToFollow = _wagonToFollow;
     }
 
     void Update()
     {   
+        if(targetWaypoints.Count == 0) return;
+
         if(WagonToFollow == null)
         {
             gameObject.Destroy(); // If the followed wagon is destroyed (because it reached the endpoint) the following wagon will also destroy itself.
@@ -109,17 +112,17 @@ public class WagonMover : MonoBehaviour
         }
 
         // The wagon vehicle is being moved to the next point of the "MoveToTarget" list
-        transform.position = Vector3.MoveTowards(transform.position, SortWay.MoveToTarget[targetIndex], Time.deltaTime * VehicleMaxSpeed * velocity);
-        if (transform.position == SortWay.MoveToTarget[targetIndex])
+        transform.position = Vector3.MoveTowards(transform.position, targetWaypoints[targetIndex], Time.deltaTime * VehicleMaxSpeed * velocity);
+        if (transform.position == targetWaypoints[targetIndex])
         {
-            if (SortWay.PathLastNode.Contains(transform.position))
+            if (pathLastNode.Contains(transform.position))
             {
                 // If the road/railroad consists of more than one part we have to teleport the vehicle to the other part upon reaching.
                 // the end of one part.
-                int index = SortWay.MoveToTarget.IndexOf(transform.position);
-                transform.position = SortWay.MoveToTarget[index + 1];
+                int index = targetWaypoints.IndexOf(transform.position);
+                transform.position = targetWaypoints[index + 1];
             }
-            transform.LookAt(SortWay.MoveToTarget[targetIndex + 1]); 
+            transform.LookAt(targetWaypoints[targetIndex + 1]); 
 
             targetIndex += 1;
         }

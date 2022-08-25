@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -38,15 +39,26 @@ public class VehicleMover : MonoBehaviour
 
     float VehicleMaxSpeed = 100f; 
 
-    void Start()
-    {       
-        transform.position = SortWay.PathsInRightOrder[0][0]; // Starting point for the vehicle.
+    List<Vector3> targetWaypoints = new List<Vector3>();
+    List<Vector3> stationCoordinates = new List<Vector3>();
+    List<Vector3> pathLastNode = new List<Vector3>();
 
-        maxIndex = SortWay.MoveToTarget.Count - 1; 
+    public void Initialize(Vector3 position, List<Vector3> _targetWaypoints, List<Vector3> _stationCoordinates, List<Vector3> _pathLastNode)
+    {       
+        targetWaypoints = _targetWaypoints;
+        stationCoordinates = _stationCoordinates;
+        pathLastNode = _pathLastNode;
+
+        transform.position = position;
+
+        maxIndex = targetWaypoints.Count - 1; 
     }
 
     void Update()
     {
+
+        if(targetWaypoints.Count == 0) return;
+
         if (IngameMenu.DarkModeOn)
         {
             transform.GetChild(1).gameObject.SetActive(true);
@@ -61,11 +73,11 @@ public class VehicleMover : MonoBehaviour
         }
 
         // The vehicles moves to the next point from the "MoveToTarget" list.
-        transform.position = Vector3.MoveTowards(transform.position, SortWay.MoveToTarget[targetIndex], Time.deltaTime * VehicleMaxSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, targetWaypoints[targetIndex], Time.deltaTime * VehicleMaxSpeed);
 
-        if (transform.position == SortWay.MoveToTarget[targetIndex])
+        if (transform.position == targetWaypoints[targetIndex])
         {
-            if (TranSportWayMarker.StationOrder.Contains(transform.position))
+            if (stationCoordinates.Contains(transform.position))
             {
                 // If the vehicle reaches a station, it stops.
                 StartCoroutine(Waiting());
@@ -76,14 +88,14 @@ public class VehicleMover : MonoBehaviour
                 Destroy(gameObject);
                 return;
             }
-            else if (SortWay.PathLastNode.Contains(transform.position))
+            else if (pathLastNode.Contains(transform.position))
             {
                 // If the road/railroad consists of more than one part we have to teleport the vehicle to the other part upon reaching.
                 // the end of one part.
-                int index = SortWay.MoveToTarget.IndexOf(transform.position);
-                transform.position = SortWay.MoveToTarget[index + 1];
+                int index = targetWaypoints.IndexOf(transform.position);
+                transform.position = targetWaypoints[index + 1];
             }
-            transform.LookAt(SortWay.MoveToTarget[targetIndex + 1]); // Rotates te vehicle in the right direction.
+            transform.LookAt(targetWaypoints[targetIndex + 1]); // Rotates te vehicle in the right direction.
 
             targetIndex += 1;           
         }

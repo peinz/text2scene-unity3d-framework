@@ -278,16 +278,23 @@ public class SortWay : MonoBehaviour
     {
         bool flag = true;
 
+        GameObject lastVehicle = new GameObject();
+
         while (flag)
         {
             if(Vehicle == "Bus")
             {
-                GameObject Bus = Instantiate(Resources.Load(Vehicle)) as GameObject; // Instantiate bus vehicle.
+                lastVehicle = Instantiate(Resources.Load(Vehicle)) as GameObject; // Instantiate bus vehicle.
+                var vehicleMover = lastVehicle.GetComponent<VehicleMover>();
+                vehicleMover.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
             }
             else if(wagons == 0 && Vehicle != "Bus") 
             {
                 wagons = 1;
-                GameObject Tram = Instantiate(Resources.Load(Vehicle)) as GameObject; // Instantiate leading wagon of train vehicle.
+                lastVehicle = Instantiate(Resources.Load(Vehicle)) as GameObject; // Instantiate leading wagon of train vehicle.
+                var vehicleMover = lastVehicle.GetComponent<VehicleMover>();
+                vehicleMover.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
+
                 if (Vehicle == "Train")
                 {
                     yield return new WaitForSeconds(0.8f);
@@ -300,7 +307,11 @@ public class SortWay : MonoBehaviour
             if (wagons < 4 && Vehicle != "Bus") 
             {
                 wagons += 1;
-                GameObject Wagon = Instantiate(Resources.Load(Vehicle + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
+                var wagon = Instantiate(Resources.Load(Vehicle + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
+                var wagonMover = wagon.GetComponent<WagonMover>();
+                wagonMover.Initialize(lastVehicle, SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, SortWay.PathLastNode);
+                lastVehicle = wagon;
+
                 if (Vehicle == "Train")
                 {
                     yield return new WaitForSeconds(0.8f);
