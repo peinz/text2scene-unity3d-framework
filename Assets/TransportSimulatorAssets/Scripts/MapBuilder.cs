@@ -213,22 +213,22 @@ class MapBuilder : MonoBehaviour
                 // Is being set so that on this position, no new stations are being generated.
                 MapReader.nodes[NodeID].StationCreated = true;
 
-
+                var stationUI_position = new_station_position;
+                stationUI_position.y += 2;
+                stationUI_position.x += 2;
                 stationUI_object = Instantiate(StationUIPrefab) as GameObject;
+                stationUI_object.transform.position = stationUI_position;
                 stationUI_object.transform.SetParent(station_object.transform.GetChild(0));
                 stationUI_object.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
-                stationUI_object.transform.localPosition = new Vector3(-15, 0, 0);
+                stationUI_object.transform.localPosition = new Vector3(-1, 10, 0);
 
                 GameObject station_text = stationUI_object.transform.GetChild(1).gameObject;
-                station_text.transform.localPosition = new Vector3(0, 7, 0);
                 Text OnScreenText = station_text.GetComponent<Text>();
                 OnScreenText.text = MapReader.nodes[NodeID].StationName;
 
                 GameObject TransportLineDropdown = stationUI_object.transform.GetChild(2).gameObject;
                 var dropDownOptions = TransportLineDropdown.GetComponent<Dropdown>();
                 dropDownOptions.AddOptions(MapReader.nodes[NodeID].TransportLines);
-
-                stationUI_object.SetActive(false);
 
                 if(r.TransportType == "bus")
                 {

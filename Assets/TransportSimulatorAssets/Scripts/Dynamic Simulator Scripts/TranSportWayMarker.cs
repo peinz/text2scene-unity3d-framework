@@ -68,8 +68,6 @@ public class TranSportWayMarker : MonoBehaviour
         {
             if (allWayObjects[i].name == "Station(Clone)")
             {
-                allWayObjects[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false); // Close all station UIs.
-                allWayObjects[i].transform.GetChild(0).GetChild(0).GetChild(6).gameObject.SetActive(true); // Deactivate the close button on the station UI.
             }
             else if (allWayObjects[i].name == "WayOrderManager(Clone)" || allWayObjects[i].name == "Bus(Clone)" || allWayObjects[i].name == "Tram(Clone)" || allWayObjects[i].name == "Subway(Clone)" || allWayObjects[i].name == "Train(Clone)")
             {
@@ -142,7 +140,6 @@ public class TranSportWayMarker : MonoBehaviour
 
                             GameObject StationUI = allWayObjects[i].transform.GetChild(0).GetChild(0).gameObject; 
                             StationUI.SetActive(true);
-                            StationUI.transform.GetChild(6).gameObject.SetActive(false); 
                             StationUI.transform.GetChild(2).gameObject.GetComponent<Dropdown>().value = j; 
                         }
                     }
