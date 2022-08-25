@@ -284,14 +284,14 @@ public class SortWay : MonoBehaviour
         {
             if(Vehicle == "Bus")
             {
-                lastVehicle = Instantiate(Resources.Load(Vehicle)) as GameObject; // Instantiate bus vehicle.
+                lastVehicle = Instantiate(Resources.Load("Vehicles/Prefabs/" + Vehicle)) as GameObject; // Instantiate bus vehicle.
                 var vehicleMover = lastVehicle.GetComponent<VehicleMover>();
                 vehicleMover.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
             }
             else if(wagons == 0 && Vehicle != "Bus") 
             {
                 wagons = 1;
-                lastVehicle = Instantiate(Resources.Load(Vehicle)) as GameObject; // Instantiate leading wagon of train vehicle.
+                lastVehicle = Instantiate(Resources.Load("Vehicles/Prefabs/" + Vehicle)) as GameObject; // Instantiate leading wagon of train vehicle.
                 var vehicleMover = lastVehicle.GetComponent<VehicleMover>();
                 vehicleMover.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
 
@@ -307,7 +307,7 @@ public class SortWay : MonoBehaviour
             if (wagons < 4 && Vehicle != "Bus") 
             {
                 wagons += 1;
-                var wagon = Instantiate(Resources.Load(Vehicle + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
+                var wagon = Instantiate(Resources.Load("Vehicles/Prefabs/" + Vehicle + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
                 var wagonMover = wagon.GetComponent<WagonMover>();
                 wagonMover.Initialize(lastVehicle, SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, SortWay.PathLastNode);
                 lastVehicle = wagon;

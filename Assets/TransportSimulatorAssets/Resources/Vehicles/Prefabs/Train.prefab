@@ -54,6 +54,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -78,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &858103330404896689
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,14 +165,16 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4532758957498553600, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
-  - {fileID: 4250972779551834545, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
-  - {fileID: -817548642129086054, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
-  - {fileID: -1695136991898724830, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
-  - {fileID: -874164558550236988, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
+  - {fileID: 6745704031616539817, guid: 406081d7ebf9e6f4691ae5ab7f1361d0, type: 3}
+  - {fileID: 2100002, guid: efe9381559c516743bd05cef82f39ebb, type: 3}
+  - {fileID: 2100002, guid: ff6dc36862fe41641bb21568d92147c9, type: 3}
+  - {fileID: 2100000, guid: 770d27e0d91fc2e47ac3b79b2205ab85, type: 2}
+  - {fileID: 2100000, guid: b4da84c5c49be450c8502c76826ffc3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -190,6 +195,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2729003618798601709
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,10 +250,12 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -806272485075938019, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
+  - {fileID: 0}
   - {fileID: -3815578715208551297, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
   - {fileID: 414835845474027020, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
   - {fileID: -4484408918189686455, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
@@ -272,6 +280,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &3923262289516073582
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,8 +320,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3923262289516073582}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 0
+  m_Shape: 0
   m_Color: {r: 1, g: 0.9411765, b: 0.37254903, a: 0}
   m_Intensity: 10
   m_Range: 100
@@ -361,6 +371,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &4806703064794134412
@@ -417,12 +428,14 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6741693305336484498, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
-  - {fileID: 6688406581918405711, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
-  - {fileID: -4137706188410003709, guid: ae1946f77eb48b347aa8a7e1f21268a7, type: 3}
+  - {fileID: 2100000, guid: 76087a3bd0f174964bbe71a0a9c5386d, type: 3}
+  - {fileID: 2100000, guid: 76087a3bd0f174964bbe71a0a9c5386d, type: 3}
+  - {fileID: 2100002, guid: efe9381559c516743bd05cef82f39ebb, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -443,6 +456,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &5247716558606948506
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,8 +496,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5247716558606948506}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 0
+  m_Shape: 0
   m_Color: {r: 1, g: 0.9411765, b: 0.37254903, a: 0}
   m_Intensity: 10
   m_Range: 100
@@ -532,6 +547,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &5274644177887501698
@@ -658,6 +674,8 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -682,6 +700,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8062873386799472676
 GameObject:
   m_ObjectHideFlags: 0
