@@ -28,19 +28,15 @@ namespace Vehicle {
             maxIndex = targetWaypoints.Count - 1; 
         }
 
+        public void EnableLights(bool enableLights){
+            transform.GetChild(1).gameObject.SetActive(enableLights);
+        }
+
         void Update()
         {
 
             if(targetWaypoints.Count == 0) return;
 
-            if (IngameMenu.DarkModeOn)
-            {
-                transform.GetChild(1).gameObject.SetActive(true);
-            }
-            else
-            {
-                transform.GetChild(1).gameObject.SetActive(false);
-            }
             if (isWaiting)
             {
                 return; // Vehicle doesnt move uppon reaching a station.

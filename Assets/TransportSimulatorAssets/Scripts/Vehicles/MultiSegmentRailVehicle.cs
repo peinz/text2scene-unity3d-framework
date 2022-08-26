@@ -41,21 +41,16 @@ namespace Vehicle {
             wagonTargetIndexs.Add(0);
         }
 
+        public void EnableLights(bool enableLights){
+            transform.GetChild(1).gameObject.SetActive(enableLights);
+        }
+
         float distanceSinceLastWaypoint = 0;
         void Update()
         {
 
             if(targetWaypoints.Count == 0) return;
             if (isWaiting) return; // Vehicle doesnt move uppon reaching a station.
-
-            if (IngameMenu.DarkModeOn)
-            {
-                transform.GetChild(1).gameObject.SetActive(true);
-            }
-            else
-            {
-                transform.GetChild(1).gameObject.SetActive(false);
-            }
 
             // The vehicles moves to the next point from the "MoveToTarget" list.
             transform.position = Vector3.MoveTowards(transform.position, targetWaypoints[targetIndex], Time.deltaTime * VehicleMaxSpeed);

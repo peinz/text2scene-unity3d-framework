@@ -296,6 +296,7 @@ public class SortWay : MonoBehaviour
             }
 
             vehicle.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
+            vehicle.EnableLights(IngameMenu.DarkModeOn);
 
             yield return new WaitForSeconds(20f); // wait 20 second and instantiate the next vehicle.
         }
