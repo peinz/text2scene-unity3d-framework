@@ -268,64 +268,36 @@ public class SortWay : MonoBehaviour
         }
     }
 
-    int wagons = 0;
     /// <summary>
     /// This couroutine controlls the spawning of the transport vehicles. 
     /// </summary>
-    /// <param name="Vehicle">name of the transport vehicle</param>
+    /// <param name="VehicleName">name of the transport vehicle</param>
     /// <returns></returns>
-    public IEnumerator VehicleSpawner(string Vehicle)
+    public IEnumerator VehicleSpawner(string VehicleName)
     {
-        bool flag = true;
-
-        GameObject lastVehicle = new GameObject();
-
-        while (flag)
+        // VehicleName = "Tram";
+        while (true)
         {
-            if(Vehicle == "Bus")
+            Vehicle.IVehicle vehicle;
+            if(VehicleName == "Bus")
             {
-                lastVehicle = Instantiate(Resources.Load("Vehicles/Prefabs/" + Vehicle)) as GameObject; // Instantiate bus vehicle.
-                var vehicleMover = lastVehicle.GetComponent<VehicleMover>();
-                vehicleMover.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
+                var vehicleGameObject = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName)) as GameObject; // Instantiate bus vehicle.
+                vehicle = vehicleGameObject.AddComponent<Vehicle.StreetVehicle>();
             }
-            else if(wagons == 0 && Vehicle != "Bus") 
+            else
             {
-                wagons = 1;
-                lastVehicle = Instantiate(Resources.Load("Vehicles/Prefabs/" + Vehicle)) as GameObject; // Instantiate leading wagon of train vehicle.
-                var vehicleMover = lastVehicle.GetComponent<VehicleMover>();
-                vehicleMover.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
+                var vehicleGameObject = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName)) as GameObject; // Instantiate leading wagon of train vehicle.
+                var multiSegmentRailVehicle = vehicleGameObject.AddComponent<Vehicle.MultiSegmentRailVehicle>();
+                for(int i = 0; i < 4; i++){
+                    var wagon = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
+                    multiSegmentRailVehicle.AddSegment(wagon);
+                }
+                vehicle = multiSegmentRailVehicle;
+            }
 
-                if (Vehicle == "Train")
-                {
-                    yield return new WaitForSeconds(0.8f);
-                }
-                else
-                {
-                    yield return new WaitForSeconds(0.6f);
-                }
-            }
-            if (wagons < 4 && Vehicle != "Bus") 
-            {
-                wagons += 1;
-                var wagon = Instantiate(Resources.Load("Vehicles/Prefabs/" + Vehicle + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
-                var wagonMover = wagon.GetComponent<WagonMover>();
-                wagonMover.Initialize(lastVehicle, SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, SortWay.PathLastNode);
-                lastVehicle = wagon;
+            vehicle.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
 
-                if (Vehicle == "Train")
-                {
-                    yield return new WaitForSeconds(0.8f);
-                }
-                else
-                {
-                    yield return new WaitForSeconds(0.6f);
-                }
-            }
-            else 
-            {
-                yield return new WaitForSeconds(20f); // After 3 wagons have been instantiated wait 20 second and instantiate the next ones.
-                wagons = 0;
-            }
+            yield return new WaitForSeconds(20f); // wait 20 second and instantiate the next vehicle.
         }
     }
 }

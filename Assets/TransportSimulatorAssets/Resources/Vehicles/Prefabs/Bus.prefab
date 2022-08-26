@@ -3736,7 +3736,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5552569319648695414}
   - component: {fileID: 2559367992566626572}
-  - component: {fileID: 6885131236438655110}
   m_Layer: 0
   m_Name: Bus
   m_TagString: Untagged
@@ -3825,18 +3824,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6885131236438655110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8887266417510082149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feafa7d329ee5ff4a85668374717d702, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8923134636577272301
 GameObject:
   m_ObjectHideFlags: 0
