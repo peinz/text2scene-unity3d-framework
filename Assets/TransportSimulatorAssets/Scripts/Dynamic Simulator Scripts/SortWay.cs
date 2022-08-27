@@ -175,7 +175,8 @@ public class SortWay : MonoBehaviour
             }
         }
 
-        IdentifyVehicle();
+        var vehicleName = IdentifyVehicle(ColorUtility.ToHtmlStringRGB(TranSportWayMarker.PreviousMaterial.color));
+        StartCoroutine(VehicleSpawner(vehicleName));
     }
 
 
@@ -242,29 +243,24 @@ public class SortWay : MonoBehaviour
     /// This function can identify which vehicle is needed using the stored color value of the way. Using
     /// this information it can call the VehicleSpawner Couroutine which instantiates the correct vehicle.
     /// </summary>
-    void IdentifyVehicle()
+    string IdentifyVehicle(string colorCode)
     {
-        switch (ColorUtility.ToHtmlStringRGB(TranSportWayMarker.PreviousMaterial.color))
+        switch (colorCode)
         {
             case "1400FF":
-                StartCoroutine(VehicleSpawner("Subway"));
-                break;
+                return "Subway";
             case "FF0000":
-                print("bus");
-                StartCoroutine(VehicleSpawner("Bus"));
-                break;
+                return "Bus";
             case "00C5FF":
-                StartCoroutine(VehicleSpawner("Tram"));
-                break;
+                return "Tram";
             case "FFFC00":
-                StartCoroutine(VehicleSpawner("Train"));
-                break;
+                return "Train";
             case "08FF00":
-                StartCoroutine(VehicleSpawner("Tram"));
-                break;
+                return "Tram";
             case "FF7800":
-                StartCoroutine(VehicleSpawner("Tram"));
-                break;
+                return "Tram";
+            default:
+                throw new ArgumentException("invalid colorCode: " + colorCode);
         }
     }
 
@@ -273,32 +269,58 @@ public class SortWay : MonoBehaviour
     /// </summary>
     /// <param name="VehicleName">name of the transport vehicle</param>
     /// <returns></returns>
-    public IEnumerator VehicleSpawner(string VehicleName)
+    IEnumerator VehicleSpawner(string VehicleName)
     {
-        // VehicleName = "Tram";
         while (true)
         {
-            Vehicle.IVehicle vehicle;
-            if(VehicleName == "Bus")
-            {
-                var vehicleGameObject = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName)) as GameObject; // Instantiate bus vehicle.
-                vehicle = vehicleGameObject.AddComponent<Vehicle.StreetVehicle>();
-            }
-            else
-            {
-                var vehicleGameObject = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName)) as GameObject; // Instantiate leading wagon of train vehicle.
-                var multiSegmentRailVehicle = vehicleGameObject.AddComponent<Vehicle.MultiSegmentRailVehicle>();
-                for(int i = 0; i < 4; i++){
-                    var wagon = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
-                    multiSegmentRailVehicle.AddSegment(wagon);
-                }
-                vehicle = multiSegmentRailVehicle;
-            }
-
-            vehicle.Initialize(SortWay.PathsInRightOrder[0][0], SortWay.MoveToTarget, TranSportWayMarker.StationOrder, SortWay.PathLastNode);
-            vehicle.EnableLights(IngameMenu.DarkModeOn);
-
+            StartCoroutine(spawnVehicle(VehicleName));
             yield return new WaitForSeconds(20f); // wait 20 second and instantiate the next vehicle.
         }
+    }
+
+
+    IEnumerator spawnVehicle(string VehicleName)
+    {
+        GameObject vehicleGameObject;
+        Vehicle.IVehicle vehicle;
+        if(VehicleName == "Bus")
+        {
+            vehicleGameObject = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName)) as GameObject; // Instantiate bus vehicle.
+            vehicle = vehicleGameObject.AddComponent<Vehicle.StreetVehicle>();
+        }
+        else
+        {
+            vehicleGameObject = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName)) as GameObject; // Instantiate leading wagon of train vehicle.
+            var multiSegmentRailVehicle = vehicleGameObject.AddComponent<Vehicle.MultiSegmentRailVehicle>();
+            for(int i = 0; i < 4; i++){
+                var wagon = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
+                multiSegmentRailVehicle.AddSegment(wagon);
+            }
+            vehicle = multiSegmentRailVehicle;
+        }
+
+        vehicle.SetPosition(PathsInRightOrder[0][0]);
+        vehicle.EnableLights(IngameMenu.DarkModeOn);
+
+        for(int i = 1; i<MoveToTarget.Count; i++){ // skip first point
+            var targetPoint = MoveToTarget[i];
+
+            // move vehicle
+            yield return vehicle.MoveTo(targetPoint);
+
+            // wait on station
+            if (TranSportWayMarker.StationOrder.Contains(targetPoint)){
+                yield return new WaitForSeconds(2f);
+            }
+
+            // jump over gaps in path
+            if (PathLastNode.Contains(targetPoint) && i < MoveToTarget.Count-1){
+                vehicle.SetPosition(MoveToTarget[i+1]);
+            }
+
+        }
+
+        // route finished => destroy vehicle
+        vehicleGameObject.Destroy();
     }
 }
