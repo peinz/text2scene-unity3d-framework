@@ -302,6 +302,9 @@ public class SortWay : MonoBehaviour
         vehicle.SetPosition(PathsInRightOrder[0][0]);
         vehicle.EnableLights(IngameMenu.DarkModeOn);
 
+        // add transporter script
+        var transporter = vehicleGameObject.AddComponent<Vehicle.Transporter>();
+
         for(int i = 1; i<MoveToTarget.Count; i++){ // skip first point
             var targetPoint = MoveToTarget[i];
 
@@ -310,6 +313,7 @@ public class SortWay : MonoBehaviour
 
             // wait on station
             if (TranSportWayMarker.StationOrder.Contains(targetPoint)){
+                transporter.StopTransporting();
                 yield return new WaitForSeconds(2f);
             }
 
