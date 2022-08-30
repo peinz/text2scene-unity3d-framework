@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Menu
+  - StationUI
   layers:
   - Default
   - TransparentFX
