@@ -25,6 +25,11 @@ namespace Vehicle {
             for(int i=0; i<wagons.Count; i++) wagonTargetIndexs[i] = 0;
         }
 
+        public Vector3 GetPosition()
+        {       
+            return transform.position;
+        }
+
         public void AddSegment(GameObject wagon){
             wagons.Add(wagon);
             wagonTargetIndexs.Add(0);

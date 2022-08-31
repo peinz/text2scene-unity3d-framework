@@ -13,6 +13,11 @@ namespace Vehicle {
             transform.position = position;
         }
 
+        public Vector3 GetPosition()
+        {       
+            return transform.position;
+        }
+
         public void EnableLights(bool enableLights){
             transform.GetChild(1).gameObject.SetActive(enableLights);
         }
