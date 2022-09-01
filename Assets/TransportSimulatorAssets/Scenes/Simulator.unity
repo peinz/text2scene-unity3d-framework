@@ -5207,11 +5207,11 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 660139206}
-    PlayerPrefab: {fileID: 8590288891280251482, guid: 28ce302e8f1434e03b49f2d35c14d00b,
+    PlayerPrefab: {fileID: 6520595864735650787, guid: 5c8c46a742c0746e6a1f4038f02095b5,
       type: 3}
     NetworkPrefabs:
     - Override: 0
-      Prefab: {fileID: 8590288891280251482, guid: 28ce302e8f1434e03b49f2d35c14d00b,
+      Prefab: {fileID: 6520595864735650787, guid: 5c8c46a742c0746e6a1f4038f02095b5,
         type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0

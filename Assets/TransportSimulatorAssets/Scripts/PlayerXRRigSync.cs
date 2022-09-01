@@ -16,5 +16,11 @@ public class PlayerXRRigSync : NetworkBehaviour
 
         transform.position = XRRig.transform.position;
         transform.eulerAngles = new Vector3(0, cameraTransform.eulerAngles.y, 0);
+
+        // deactivate renderer on owner, to prevent seeing it on own screen
+        var meshRenders = GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach(var meshRenderer in meshRenders){
+            meshRenderer.enabled = false;
+        }
     }
 }
