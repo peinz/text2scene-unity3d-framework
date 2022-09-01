@@ -81,7 +81,7 @@ public class TranSportWayMarker : MonoBehaviour
             for (int j = 0; j < SelectedWays.Count; j++) // The current markings are being reverted.
             {
                 int index = SelectedWays[j];
-                allWayObjects[index].transform.localPosition = new Vector3(allWayObjects[index].transform.localPosition.x, 0, allWayObjects[index].transform.localPosition.z);
+                allWayObjects[index].transform.localPosition = new Vector3(allWayObjects[index].transform.localPosition.x, 10, allWayObjects[index].transform.localPosition.z);
                 allWayObjects[index].gameObject.GetComponent<Renderer>().material = PreviousMaterial;
             }
             for (int k = 0; k < SelectedStations.Count; k++) // The station UIs are being closed and the drop down selection is being reverted to global view
@@ -99,7 +99,7 @@ public class TranSportWayMarker : MonoBehaviour
             for (int j = 0; j < SelectedWays.Count; j++) 
             {
                 int index = SelectedWays[j];
-                allWayObjects[index].transform.localPosition = new Vector3(allWayObjects[index].transform.localPosition.x, 0, allWayObjects[index].transform.localPosition.z);
+                allWayObjects[index].transform.localPosition = new Vector3(allWayObjects[index].transform.localPosition.x, 10, allWayObjects[index].transform.localPosition.z);
                 allWayObjects[index].gameObject.GetComponent<Renderer>().material = PreviousMaterial;
             }
             for (int k = 0; k < SelectedStations.Count; k++) 
@@ -125,7 +125,7 @@ public class TranSportWayMarker : MonoBehaviour
                         SelectedWays.Add(i);
                         PreviousMaterial = allWayObjects[i].GetComponent<Renderer>().material;
 
-                        allWayObjects[i].transform.position += new Vector3(0, 0.1f, 0); // Increase the height of the object so it doesnt intersect with other objects.
+                        allWayObjects[i].transform.position += new Vector3(0, 10.1f, 0); // Increase the height of the object so it doesnt intersect with other objects.
                         allWayObjects[i].GetComponent<Renderer>().material = MapBuilder.selected_way; // Apply the new material to the way object.
                     }
                 }

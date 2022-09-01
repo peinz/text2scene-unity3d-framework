@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -207,7 +207,6 @@ class MapBuilder : MonoBehaviour
                 station_object = Instantiate(StationPrefab) as GameObject;
                 OsmNode new_station = MapReader.nodes[NodeID];
                 Vector3 new_station_position = new_station - MapReader.bounds.Centre;
-                new_station_position.y = -3;
                 station_object.transform.position = new_station_position;
 
                 // Is being set so that on this position, no new stations are being generated.
@@ -331,7 +330,8 @@ class MapBuilder : MonoBehaviour
                 waytext.text += tramline + ", ";
             }
             Vector3 localOrigin = GetCentre(w.Value);
-            go.transform.position = localOrigin - MapReader.bounds.Centre;
+            go.transform.position = (localOrigin - MapReader.bounds.Centre) + Vector3.up*10;
+
 
             MeshFilter mf = go.AddComponent<MeshFilter>();
             MeshRenderer mr = go.AddComponent<MeshRenderer>();
