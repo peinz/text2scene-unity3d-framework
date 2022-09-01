@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using System;
 using System.Linq;
 
@@ -243,88 +245,36 @@ public class SortWay : MonoBehaviour
     /// This function can identify which vehicle is needed using the stored color value of the way. Using
     /// this information it can call the VehicleSpawner Couroutine which instantiates the correct vehicle.
     /// </summary>
-    string IdentifyVehicle(string colorCode)
+    Vehicle.VehicleType IdentifyVehicle(string colorCode)
     {
         switch (colorCode)
         {
             case "1400FF":
-                return "Subway";
+                return Vehicle.VehicleType.Subway;
             case "FF0000":
-                return "Bus";
+                return Vehicle.VehicleType.Bus;
             case "00C5FF":
-                return "Tram";
+                return Vehicle.VehicleType.Tram;
             case "FFFC00":
-                return "Train";
+                return Vehicle.VehicleType.Train;
             case "08FF00":
-                return "Tram";
+                return Vehicle.VehicleType.Tram;
             case "FF7800":
-                return "Tram";
+                return Vehicle.VehicleType.Tram;
             default:
                 throw new ArgumentException("invalid colorCode: " + colorCode);
         }
     }
 
-    /// <summary>
-    /// This couroutine controlls the spawning of the transport vehicles. 
-    /// </summary>
-    /// <param name="VehicleName">name of the transport vehicle</param>
-    /// <returns></returns>
-    IEnumerator VehicleSpawner(string VehicleName)
+    IEnumerator VehicleSpawner(Vehicle.VehicleType type)
     {
         while (true)
         {
-            StartCoroutine(spawnVehicle(VehicleName));
+            var vehicleTransportLineManagerGameObject = Instantiate(Resources.Load("VehicleTransportLineManager")) as GameObject;
+            var vehicleTransportLineManager = vehicleTransportLineManagerGameObject.GetComponent<VehicleTransportLineManager>();
+            vehicleTransportLineManager.Initialize(type, MoveToTarget, PathLastNode, TranSportWayMarker.StationOrder);
+            vehicleTransportLineManagerGameObject.GetComponent<NetworkObject>().Spawn();
             yield return new WaitForSeconds(20f); // wait 20 second and instantiate the next vehicle.
         }
-    }
-
-
-    IEnumerator spawnVehicle(string VehicleName)
-    {
-        GameObject vehicleGameObject;
-        Vehicle.IVehicle vehicle;
-        if(VehicleName == "Bus")
-        {
-            vehicleGameObject = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName)) as GameObject; // Instantiate bus vehicle.
-            vehicle = vehicleGameObject.AddComponent<Vehicle.StreetVehicle>();
-        }
-        else
-        {
-            vehicleGameObject = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName)) as GameObject; // Instantiate leading wagon of train vehicle.
-            var multiSegmentRailVehicle = vehicleGameObject.AddComponent<Vehicle.MultiSegmentRailVehicle>();
-            for(int i = 0; i < 4; i++){
-                var wagon = Instantiate(Resources.Load("Vehicles/Prefabs/" + VehicleName + " Wagon")) as GameObject; // Instantiate other wagons of train vehicle.
-                multiSegmentRailVehicle.AddSegment(wagon);
-            }
-            vehicle = multiSegmentRailVehicle;
-        }
-
-        vehicle.SetPosition(PathsInRightOrder[0][0]);
-        vehicle.EnableLights(IngameMenu.DarkModeOn);
-
-        // add transporter script
-        var transporter = vehicleGameObject.AddComponent<Vehicle.Transporter>();
-
-        for(int i = 1; i<MoveToTarget.Count; i++){ // skip first point
-            var targetPoint = MoveToTarget[i];
-
-            // move vehicle
-            yield return vehicle.MoveTo(targetPoint);
-
-            // wait on station
-            if (TranSportWayMarker.StationOrder.Contains(targetPoint)){
-                transporter.StopTransporting();
-                yield return new WaitForSeconds(2f);
-            }
-
-            // jump over gaps in path
-            if (PathLastNode.Contains(targetPoint) && i < MoveToTarget.Count-1){
-                vehicle.SetPosition(MoveToTarget[i+1]);
-            }
-
-        }
-
-        // route finished => destroy vehicle
-        vehicleGameObject.Destroy();
     }
 }
