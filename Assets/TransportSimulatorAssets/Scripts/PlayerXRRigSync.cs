@@ -15,6 +15,6 @@ public class PlayerXRRigSync : NetworkBehaviour
         var cameraTransform = XRRig.transform.GetChild(0).GetChild(0);
 
         transform.position = XRRig.transform.position;
-        transform.rotation = cameraTransform.rotation;
+        transform.eulerAngles = new Vector3(0, cameraTransform.rotation.y, 0);
     }
 }
