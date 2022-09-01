@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -282,98 +282,45 @@ class MapBuilder : MonoBehaviour
                 InGameLoadingWindow.SetActive(false);
             }
 
+            if (w.Value.PublicTransportStreet && !UserPreferences.PublicTransportStreets) continue;
+            if (w.Value.PublicTransportRailway && !UserPreferences.PublicTransportRailways) continue;
+            if (w.Value.PublicTransportRailway){
+                if (w.Value.TransportTypes.Contains("subway") && !UserPreferences.Subways) continue;
+                if (w.Value.TransportTypes.Contains("tram") && !UserPreferences.Trams) continue;
+                if (w.Value.TransportTypes.Contains("train") && !UserPreferences.Trains) continue;
+                if (w.Value.TransportTypes.Contains("railway") && !UserPreferences.Railways) continue;
+                if (w.Value.TransportTypes.Contains("light_rail") && !UserPreferences.LightRails) continue;
+            }
+
             // Here we start the process of road/rail road instantiation.
-            if (w.Value.PublicTransportStreet)
-            {
-                if (UserPreferences.PublicTransportStreets)
-                {
-                    inUse = bus_streets;
+            if (w.Value.PublicTransportStreet) {
+                inUse = bus_streets;
+            }
+            else if (w.Value.PublicTransportRailway) {
+
+                if(!UserPreferences.Subways && !UserPreferences.Trams && !UserPreferences.Trains && !UserPreferences.Railways && !UserPreferences.LightRails) {
+                    inUse = public_transport_railways;
                 }
-                else
-                {
-                    inUse = null;
+                else if (w.Value.TransportTypes.Contains("subway")) {
+                    inUse = subways;
+                }
+                else if (w.Value.TransportTypes.Contains("tram")) {
+                    inUse = trams;
+                }
+                else if (w.Value.TransportTypes.Contains("train")) {
+                    inUse = trains;
+                }
+                else if (w.Value.TransportTypes.Contains("railway")) {
+                    inUse = railway;
+                }
+                else if (w.Value.TransportTypes.Contains("light_rail")) {
+                    inUse = light_rails;
+                }
+                else {
                     continue;
                 }
             }
-            else if (w.Value.PublicTransportRailway)
-            {
-                if (UserPreferences.PublicTransportRailways)
-                {
-                    if(!UserPreferences.Subways && !UserPreferences.Trams && !UserPreferences.Trains && !UserPreferences.Railways && !UserPreferences.LightRails)
-                    {
-                        inUse = public_transport_railways;
-                    }
-                    else if (w.Value.TransportTypes.Contains("subway"))
-                    {
-                        if (UserPreferences.Subways)
-                        {
-                            inUse = subways;
-                        }
-                        else
-                        {
-                            inUse = null;
-                            continue;
-                        }
-                    }
-                    else if (w.Value.TransportTypes.Contains("tram"))
-                    {
-                        if (UserPreferences.Trams)
-                        {
-                            inUse = trams;
-                        }
-                        else
-                        {
-                            inUse = null;
-                            continue;
-                        }
-                    }
-                    else if (w.Value.TransportTypes.Contains("train"))
-                    {
-                        if (UserPreferences.Trains)
-                        {
-                            inUse = trains;
-                        }
-                        else
-                        {
-                            inUse = null;
-                            continue;
-                        }
-                    }
-                    else if (w.Value.TransportTypes.Contains("railway"))
-                    {
-                        if (UserPreferences.Railways)
-                        {
-                            inUse = railway;
-                        }
-                        else
-                        {
-                            inUse = null;
-                            continue;
-                        }
-                    }
-                    else if (w.Value.TransportTypes.Contains("light_rail"))
-                    {
-                        if (UserPreferences.LightRails)
-                        {
-                            inUse = light_rails;
-                        }
-                        else
-                        {
-                            inUse = null;
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        inUse = null;
-                        continue;
-                    }
-                    
-                }
-            }
-            else
-            {
-                inUse = null;
+            else {
                 continue;
             }
                                              
