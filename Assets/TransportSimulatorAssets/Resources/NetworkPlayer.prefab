@@ -2402,6 +2402,7 @@ GameObject:
   - component: {fileID: 6520595864735650797}
   - component: {fileID: 6520595864735650796}
   - component: {fileID: 270329168497006222}
+  - component: {fileID: 7010973136460325343}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Untagged
@@ -2443,10 +2444,10 @@ Animator:
   m_GameObject: {fileID: 6520595864735650787}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ba5173a85368a4f4eb45fbc497be292c, type: 2}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 879485760e64b4ef1a2dcd4ec31a843b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -2520,6 +2521,19 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!114 &7010973136460325343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6520595864735650787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 1003668389904922722}
 --- !u!1 &6574924073765743884
 GameObject:
   m_ObjectHideFlags: 0
