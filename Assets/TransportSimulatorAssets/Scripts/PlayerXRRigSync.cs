@@ -8,11 +8,15 @@ public class PlayerXRRigSync : NetworkBehaviour
     Animator animator;
 
     NetworkVariable<int> animationState = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    NetworkVariable<Vector3> leftHandPosition = new NetworkVariable<Vector3>(new Vector3(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    NetworkVariable<Vector3> rightHandPosition = new NetworkVariable<Vector3>(new Vector3(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     void Start()
     {
         animator = GetComponent<Animator>();
         animationState.OnValueChanged += OnAnimatorStateChanged;
+        leftHandPosition.OnValueChanged += OnLeftHandPositionChanged;
+        rightHandPosition.OnValueChanged += OnRightHandPositionChanged;
     }
 
     void Update()
@@ -23,7 +27,14 @@ public class PlayerXRRigSync : NetworkBehaviour
 
         if(!XRRig) return;
 
-        var cameraTransform = XRRig.transform.GetChild(0).GetChild(0);
+        var cameraOffsetTransform = XRRig.transform.GetChild(0);
+        var cameraTransform = cameraOffsetTransform.GetChild(0);
+        var leftHandTransform = cameraOffsetTransform.Find("LeftHand");
+        var rightHandTransform = cameraOffsetTransform.Find("RightHand");
+
+        // TODO: set animation rigging weights to zero in case no hands were found
+        if(leftHandTransform) leftHandPosition.Value = leftHandTransform.localPosition;
+        if(rightHandTransform) rightHandPosition.Value = rightHandTransform.localPosition;
 
         var velocity = XRRig.transform.position - transform.position;
         transform.position += velocity;
@@ -46,4 +57,24 @@ public class PlayerXRRigSync : NetworkBehaviour
             animator.SetInteger("state", current);
         }
     }
+
+    void OnLeftHandPositionChanged(Vector3 previous, Vector3 current)
+    {
+        var leftArmRig = transform.Find("LeftArmRig");
+        var armRigTarget = getArmRigTarget(leftArmRig);
+        armRigTarget.localPosition = current;
+    }
+
+    void OnRightHandPositionChanged(Vector3 previous, Vector3 current)
+    {
+        var rightArmRig = transform.Find("RightArmRig");
+        var armRigTarget = getArmRigTarget(rightArmRig);
+        armRigTarget.localPosition = current;
+    }
+
+    Transform getArmRigTarget(Transform armRig)
+    {
+        return armRig.GetChild(0).GetChild(0);
+    }
+
 }
