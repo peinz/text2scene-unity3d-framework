@@ -104,7 +104,8 @@ public class VehicleTransportLineManager : NetworkBehaviour
     {
         while(true){
             vehicle.SetPosition(vehiclePosition.Value);
-            yield return null;
+            var targetPoint = wayPoints[waypointIndex.Value];
+            yield return vehicle.MoveTo(targetPoint);
         }
 
     }
