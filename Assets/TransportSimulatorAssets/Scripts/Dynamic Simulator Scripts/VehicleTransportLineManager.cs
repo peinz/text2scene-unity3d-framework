@@ -96,8 +96,7 @@ public class VehicleTransportLineManager : NetworkBehaviour
         }
 
         // route finished => destroy lineManager
-        if(vehicleGameObject) vehicleGameObject.Destroy();
-        GetComponent<NetworkObject>().Despawn();
+        gameObject.Destroy();
     }
 
     IEnumerator clientUpdateVehiclePosition()
@@ -108,5 +107,12 @@ public class VehicleTransportLineManager : NetworkBehaviour
             yield return vehicle.MoveTo(targetPoint);
         }
 
+    }
+
+    void OnDestroy()
+    {
+        if(vehicleGameObject){
+            vehicleGameObject.Destroy();
+        }
     }
 }
