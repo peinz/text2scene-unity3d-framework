@@ -1,18 +1,21 @@
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using Unity.Netcode.Transports.UTP;
 
-[RequireComponent(typeof(NetworkManager))]
-public class NetworkOrchestrator : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
+
     public string ServerIp = "127.0.0.1";
     public ushort ServerPort = 7777;
+
+    public GameObject Lobby; // LobbyArea
     NetworkManager networkManager;
 
     void Start()
     {
-        networkManager = GetComponent<NetworkManager>();
+        networkManager = NetworkManager.Singleton;
         networkManager.OnServerStarted += OnServerStarted;
 
         networkManager.GetComponent<UnityTransport>().SetConnectionData(
@@ -20,6 +23,18 @@ public class NetworkOrchestrator : MonoBehaviour
             ServerPort,  // The port number is an unsigned short
             "0.0.0.0"
         );
+    }
+
+    public void StartHost()
+    {
+        networkManager.StartHost();
+        Lobby.Destroy();
+    }
+
+    public void StartClient()
+    {
+        networkManager.StartClient();
+        Lobby.Destroy();
     }
 
     void OnServerStarted()
@@ -32,4 +47,5 @@ public class NetworkOrchestrator : MonoBehaviour
             stationUI.GetComponent<Canvas>().enabled = true;
         }
     }
+
 }
