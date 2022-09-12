@@ -1,10 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 using UnityEngine.SceneManagement;
-using Mapbox.Unity.Map;
-using Mapbox.Utils;
-using Mapbox.Unity.Map.TileProviders;
 
 // This software has been further expanded by Alen Smajic (2020).
 
@@ -34,12 +31,10 @@ using Mapbox.Unity.Map.TileProviders;
 /// This script extracts the various data nodes from the XML file and generates
 /// the respective instances based on the classes from the serialization folder.
 /// The objects are then stored in dictionaries and lists to access these data
-/// structures from other scripts. As soon as the data has been processed, the
-/// variable "IsReady" turns true and the script "MapBuilder" is initiated.
+/// structures from other scripts.
 /// </summary>
-class MapReader : MonoBehaviour
+class MapReader
 {
-    public GameObject MapboxMapGameObject;
     public static OsmBounds bounds;
 
     public static Dictionary<ulong, OsmNode> nodes;
@@ -48,15 +43,11 @@ class MapReader : MonoBehaviour
 
     public static List<OsmRelation> relations;
 
-    public static bool IsReady { get; private set; }
-
-    void Start()
+    public OsmData ParseOsmData(string path)
     {
         nodes = new Dictionary<ulong, OsmNode>();
         ways = new Dictionary<ulong, OsmWay>();
         relations = new List<OsmRelation>();
-
-        FileLoader.simulator_loaded = true;
 
         XmlDocument doc = new XmlDocument();
         try
@@ -64,7 +55,7 @@ class MapReader : MonoBehaviour
             // The XML file is being loaded and the data nodes are being extracted using
             // the classes from the serialization folder.
             // doc.Load(FileLoader.ResourceFilePath);
-            doc.Load("/Users/peinz/Desktop/map2.txt");
+            doc.Load(path);
             SetBounds(doc.SelectSingleNode("/osm/bounds"));
             if (UserPreferences.PublicTransportStreets || UserPreferences.PublicTransportRailways || UserPreferences.Stations)
             {
@@ -78,17 +69,16 @@ class MapReader : MonoBehaviour
             {
                 GetRelations(doc.SelectNodes("/osm/relation"));
             }
+
+            return new OsmData(bounds, nodes, ways, relations);
         }
 
         // If the user input path to the XML file is not in XML format, the user is
         // being returned to the Main Menu with an error message.
         catch
         {
-            SceneManager.LoadScene(0);
+            return null;
         }
-
-        // Triggers the start of the "MapBuilder" script.
-        IsReady = true;
     }
 
     /// <summary>
@@ -99,23 +89,6 @@ class MapReader : MonoBehaviour
     void SetBounds(XmlNode xmlNode)
     {
         bounds = new OsmBounds(xmlNode);
-
-        // configure mapBoxMap
-        AbstractMap MapboxMap = MapboxMapGameObject.GetComponent<AbstractMap>();
-
-        MapboxMap.Initialize(new Vector2d(bounds.CenterLatLon.x, bounds.CenterLatLon.y), 15);
-
-        RangeTileProvider tileProvider = new RangeTileProvider();
-        RangeTileProviderOptions tileProviderOptions = new RangeTileProviderOptions();
-        tileProviderOptions.SetOptions(OsmBounds.LenghtFactor, OsmBounds.WidthFactor, OsmBounds.LenghtFactor, OsmBounds.WidthFactor);
-        tileProvider.SetOptions(tileProviderOptions);
-        MapboxMap.TileProvider = tileProvider;
-
-        MapboxMap.SetZoom(15.29f);
-
-        MapboxMap.UpdateMap();
-
-        MapboxMap.Terrain.EnableCollider(true);
     }
 
     /// <summary>

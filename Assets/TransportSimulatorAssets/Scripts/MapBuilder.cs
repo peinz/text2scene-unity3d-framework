@@ -28,8 +28,7 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This script generates all railroads, station and roads using the information
-/// from the MapReader script. The generation oof the 3D buildings is also here
-/// instantiated. The progress is shown by a loading window with percentage.
+/// from OsmData. 
 /// </summary>
 class MapBuilder : MonoBehaviour
 {
@@ -58,14 +57,16 @@ class MapBuilder : MonoBehaviour
     float processed_items = 0f;
     int percentageAmount = 0;
 
+    OsmData osmData;
+
     /// <summary>
-    /// This function waits for the MapReader script to process all the information.
-    /// As soon as this is done, the MapReader script will trigger this function to
-    /// start the process of scene building.
+    /// This script will visualize osmData
     /// </summary>
     /// <returns></returns>
-    IEnumerator Start()
+    public IEnumerator BuildAllObjects(OsmData osmData)
     {
+        this.osmData = osmData;
+
         if (!UserPreferences.Stations)
         { 
             StationsCreated = true;
@@ -75,7 +76,7 @@ class MapBuilder : MonoBehaviour
             StationBuilder(); // Stations are being built.
         }
 
-        while (!MapReader.IsReady || !StationsCreated)
+        while (!StationsCreated)
         {
             yield return null;
         }
@@ -91,44 +92,44 @@ class MapBuilder : MonoBehaviour
     /// </summary>
     void StationBuilder()
     {
-        for(int i=0; i<MapReader.relations.Count; i++)
+        for(int i=0; i<osmData.Relations.Count; i++)
         {
-            switch (MapReader.relations[i].TransportType)
+            switch (osmData.Relations[i].TransportType)
             {
                 case "subway":
                     if (UserPreferences.Subways == true)
                     {
-                        CreateStations(MapReader.relations[i]);
+                        CreateStations(osmData.Relations[i]);
                     }
                     break;
                 case "tram":
                     if (UserPreferences.Trams == true)
                     {
-                        CreateStations(MapReader.relations[i]);
+                        CreateStations(osmData.Relations[i]);
                     }
                     break;
                 case "train":
                     if (UserPreferences.Trains == true)
                     {
-                        CreateStations(MapReader.relations[i]);
+                        CreateStations(osmData.Relations[i]);
                     }
                     break;
                 case "railway":
                     if (UserPreferences.Railways == true)
                     {
-                        CreateStations(MapReader.relations[i]);
+                        CreateStations(osmData.Relations[i]);
                     }
                     break;
                 case "light_rail":
                     if (UserPreferences.LightRails == true)
                     {
-                        CreateStations(MapReader.relations[i]);
+                        CreateStations(osmData.Relations[i]);
                     }
                     break;
                 case "bus":
                     if (UserPreferences.Busses == true)
                     {
-                        CreateStations(MapReader.relations[i]);
+                        CreateStations(osmData.Relations[i]);
                     }
                     break;
             }
@@ -153,7 +154,7 @@ class MapBuilder : MonoBehaviour
                 // If a station has already been created using a node position, a new station will not
                 // be created there but the existing one will be augmented with the new information. This 
                 // avoids the case of multiple overlapping station object at one point.
-                if (MapReader.nodes[NodeID].StationCreated == true)
+                if (osmData.Nodes[NodeID].StationCreated == true)
                 {
                     List<GameObject> allObjects = new List<GameObject>();
                     Scene scene = SceneManager.GetActiveScene();
@@ -163,7 +164,7 @@ class MapBuilder : MonoBehaviour
                     // already been generated at the certain point.
                     for (int i = 5; i < allObjects.Count; i++)
                     {
-                        if(allObjects[i].transform.position == MapReader.nodes[NodeID] - MapReader.bounds.Centre)
+                        if(allObjects[i].transform.position == osmData.Nodes[NodeID] - osmData.Bounds.Centre)
                         {
                             bool doubleFound = false;
 
@@ -175,9 +176,9 @@ class MapBuilder : MonoBehaviour
                             var dropOptions = Dropdown.GetComponent<Dropdown>();
                             for(int j = 0; j < dropOptions.options.Count; j++)
                             {
-                                for(int k = 0; k < MapReader.nodes[NodeID].TransportLines.Count; k++)
+                                for(int k = 0; k < osmData.Nodes[NodeID].TransportLines.Count; k++)
                                 {
-                                    if(dropOptions.options[j].text == MapReader.nodes[NodeID].TransportLines[k])
+                                    if(dropOptions.options[j].text == osmData.Nodes[NodeID].TransportLines[k])
                                     {
                                         doubleFound = true;
                                         continue;
@@ -186,7 +187,7 @@ class MapBuilder : MonoBehaviour
                             }
                             if (!doubleFound)  // If no information is found, we add the new information here.
                             {
-                                dropOptions.AddOptions(MapReader.nodes[NodeID].TransportLines);
+                                dropOptions.AddOptions(osmData.Nodes[NodeID].TransportLines);
                                 if (r.TransportType == "bus")
                                 {
                                     // Activates the bus symbol in the UI.
@@ -205,12 +206,12 @@ class MapBuilder : MonoBehaviour
                 }
 
                 station_object = Instantiate(StationPrefab) as GameObject;
-                OsmNode new_station = MapReader.nodes[NodeID];
-                Vector3 new_station_position = new_station - MapReader.bounds.Centre;
+                OsmNode new_station = osmData.Nodes[NodeID];
+                Vector3 new_station_position = new_station - osmData.Bounds.Centre;
                 station_object.transform.position = new_station_position;
 
                 // Is being set so that on this position, no new stations are being generated.
-                MapReader.nodes[NodeID].StationCreated = true;
+                osmData.Nodes[NodeID].StationCreated = true;
 
                 var stationUI_position = new_station_position;
                 stationUI_position.y += 2;
@@ -223,11 +224,11 @@ class MapBuilder : MonoBehaviour
 
                 GameObject station_text = stationUI_object.transform.GetChild(1).gameObject;
                 Text OnScreenText = station_text.GetComponent<Text>();
-                OnScreenText.text = MapReader.nodes[NodeID].StationName;
+                OnScreenText.text = osmData.Nodes[NodeID].StationName;
 
                 GameObject TransportLineDropdown = stationUI_object.transform.GetChild(2).gameObject;
                 var dropDownOptions = TransportLineDropdown.GetComponent<Dropdown>();
-                dropDownOptions.AddOptions(MapReader.nodes[NodeID].TransportLines);
+                dropDownOptions.AddOptions(osmData.Nodes[NodeID].TransportLines);
 
                 if(r.TransportType == "bus")
                 {
@@ -254,12 +255,12 @@ class MapBuilder : MonoBehaviour
     /// <returns></returns>
     IEnumerator WayBuilder()
     {
-        float TargetCount = MapReader.ways.Count;
+        float TargetCount = osmData.Ways.Count;
         Text PercentageDisplayer = InGameLoadingScreen.GetComponent<Text>();
 
         InGameLoadingWindow.SetActive(true);
 
-        foreach (KeyValuePair<ulong, OsmWay> w in MapReader.ways)
+        foreach (KeyValuePair<ulong, OsmWay> w in osmData.Ways)
         {
             // A simple loading progress logic, which returns the amount
             // of processed items divided by the total number of items.
@@ -330,7 +331,7 @@ class MapBuilder : MonoBehaviour
                 waytext.text += tramline + ", ";
             }
             Vector3 localOrigin = GetCentre(w.Value);
-            go.transform.position = (localOrigin - MapReader.bounds.Centre) + Vector3.up*10;
+            go.transform.position = (localOrigin - osmData.Bounds.Centre) + Vector3.up*10;
 
 
             MeshFilter mf = go.AddComponent<MeshFilter>();
@@ -345,8 +346,8 @@ class MapBuilder : MonoBehaviour
 
             for (int i = 1; i < w.Value.NodeIDs.Count; i++)
             {
-                OsmNode p1 = MapReader.nodes[w.Value.NodeIDs[i - 1]];
-                OsmNode p2 = MapReader.nodes[w.Value.NodeIDs[i]];
+                OsmNode p1 = osmData.Nodes[w.Value.NodeIDs[i - 1]];
+                OsmNode p2 = osmData.Nodes[w.Value.NodeIDs[i]];
 
                 Vector3 s1 = p1 - localOrigin;  
                 Vector3 s2 = p2 - localOrigin;
@@ -396,8 +397,8 @@ class MapBuilder : MonoBehaviour
             // when we want to move the transport vehicles across the ways.
             for(int i = 0; i < w.Value.NodeIDs.Count; i++)
             {
-                OsmNode p1 = MapReader.nodes[w.Value.NodeIDs[i]];
-                w.Value.UnityCoordinates.Add(p1 - MapReader.bounds.Centre);
+                OsmNode p1 = osmData.Nodes[w.Value.NodeIDs[i]];
+                w.Value.UnityCoordinates.Add(p1 - osmData.Bounds.Centre);
             }
         }
     }
@@ -414,7 +415,7 @@ class MapBuilder : MonoBehaviour
 
         foreach (var id in way.NodeIDs)
         {
-            total += MapReader.nodes[id];  
+            total += osmData.Nodes[id];  
         }
         return total / way.NodeIDs.Count;
     }  

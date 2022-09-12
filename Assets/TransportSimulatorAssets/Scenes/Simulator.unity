@@ -8158,7 +8158,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerIp: 127.0.0.1
   ServerPort: 7777
+  osmMapDataFilePath: /Users/peinz/Desktop/map_small.txt
   Lobby: {fileID: 1595106007}
+  mapBuilder: {fileID: 1465030156}
+  MapboxMapGameObject: {fileID: 1653818058}
 --- !u!114 &1010010005
 MonoBehaviour:
   m_ObjectHideFlags: 0
