@@ -11848,7 +11848,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcaf71036ec4b234eab5b773e1914323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapboxMapGameObject: {fileID: 1653818058}
 --- !u!4 &1465030159
 Transform:
   m_ObjectHideFlags: 0
@@ -13661,7 +13660,7 @@ MonoBehaviour:
       - coreOptions:
           sourceId: 
           isActive: 1
-          sublayerName: Untitled
+          sublayerName: m_buildings
           geometryType: 2
           layerName: building
           snapToTerrain: 1
@@ -13686,7 +13685,7 @@ MonoBehaviour:
           maximumHeight: 1
           extrusionScaleFactor: 1
         colliderOptions:
-          colliderType: 0
+          colliderType: 1
         materialOptions:
           style: 2
           texturingType: 0
@@ -13721,71 +13720,6 @@ MonoBehaviour:
         MeshModifiers: []
         GoModifiers: []
         presetFeatureType: 0
-        _maskValue: 0
-        selectedTypes: 
-      - coreOptions:
-          sourceId: 
-          isActive: 0
-          sublayerName: Untitled
-          geometryType: 1
-          layerName: road
-          snapToTerrain: 1
-          combineMeshes: 0
-        lineGeometryOptions:
-          Width: 1
-          MiterLimit: 0.2
-          RoundLimit: 1.05
-          JoinType: 1
-          CapType: 1
-        filterOptions:
-          _selectedLayerName: road
-          filters: []
-          combinerType: 0
-        extrusionOptions:
-          _selectedLayerName: 
-          extrusionType: 5
-          extrusionGeometryType: 0
-          propertyName: height
-          propertyDescription: 
-          minimumHeight: 0
-          maximumHeight: 1
-          extrusionScaleFactor: 1
-        colliderOptions:
-          colliderType: 0
-        materialOptions:
-          style: 3
-          texturingType: 0
-          materials:
-          - Materials:
-            - {fileID: 0}
-          - Materials:
-            - {fileID: 0}
-          atlasInfo: {fileID: 11400000, guid: 59ca6a03aa1ab4d5797fc37bc0f37797, type: 2}
-          lightStyleOpacity: 1
-          darkStyleOpacity: 1
-          colorStyleColor: {r: 0.1764706, g: 0.8509805, b: 1, a: 1}
-          samplePalettes: 0
-          colorPalette: {fileID: 0}
-          customStyleOptions:
-            texturingType: 0
-            materials:
-            - Materials:
-              - {fileID: 0}
-            - Materials:
-              - {fileID: 0}
-            atlasInfo: {fileID: 11400000, guid: 414754d7155df47beb52ca117a774f21,
-              type: 2}
-            colorPalette: {fileID: 11400000, guid: 57bdfa37edf7a4f7f999d19443497554,
-              type: 2}
-        performanceOptions:
-          isEnabled: 0
-          entityPerCoroutine: 0
-        honorBuildingIdSetting: 0
-        buildingsWithUniqueIds: 1
-        moveFeaturePositionTo: 0
-        MeshModifiers: []
-        GoModifiers: []
-        presetFeatureType: 1
         _maskValue: 0
         selectedTypes: 
       locationPrefabList: []
