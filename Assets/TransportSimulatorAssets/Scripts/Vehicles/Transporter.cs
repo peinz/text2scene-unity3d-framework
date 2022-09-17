@@ -5,6 +5,7 @@ namespace Vehicle {
     public class Transporter : MonoBehaviour
     {
         public GameObject entryPoint;
+        public GameObject exitPoint;
         public GameObject seatLocation;
         public bool stopTransportingOnNextHalt {get; private set; } = false;
 
@@ -54,6 +55,8 @@ namespace Vehicle {
 
         public void StopTransporting()
         {
+            if(objectToTransport == null) return;
+            objectToTransport.transform.position = exitPoint.transform.position;
             objectToTransport = null;
             UpdateUI();
         }
