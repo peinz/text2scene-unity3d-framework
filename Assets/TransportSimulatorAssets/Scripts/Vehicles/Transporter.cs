@@ -10,6 +10,7 @@ namespace Vehicle {
         GameObject objectToTransport;
 
         Vector3 lastPosition = new Vector3(0, 0, 0);
+        Vector3 lastForwardDirection = new Vector3(0, 0, 0);
         double velocity = 0;
 
         void Update()
@@ -24,6 +25,11 @@ namespace Vehicle {
             if(!objectToTransport) return;
 
             objectToTransport.transform.position = seatLocation.transform.position;
+
+            var deltaRotation = Quaternion.FromToRotation(lastForwardDirection, transform.forward);
+            lastForwardDirection = transform.forward;
+
+            objectToTransport.transform.rotation *= deltaRotation;
         }
 
         public void StartTransporting(GameObject objectToTransport)
