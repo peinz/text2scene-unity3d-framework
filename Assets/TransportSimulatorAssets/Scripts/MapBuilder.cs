@@ -331,7 +331,7 @@ class MapBuilder : MonoBehaviour
                 waytext.text += tramline + ", ";
             }
             Vector3 localOrigin = GetCentre(w.Value);
-            go.transform.position = (localOrigin - osmData.Bounds.Centre) + Vector3.up*10;
+            go.transform.position = (localOrigin - osmData.Bounds.Centre) + Vector3.up*500;
 
 
             MeshFilter mf = go.AddComponent<MeshFilter>();
