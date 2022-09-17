@@ -44,7 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd945b08b949d45618466386ba757bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  darkmodeEnabled: 0
+  darkmodeEnabled:
+    m_InternalValue: 0
+  vehiclePrefabs:
+  - type: 0
+    vehicle: {fileID: 1450660574771638082, guid: febc3a48a7273af43873e0d67caccee0,
+      type: 3}
+  - type: 1
+    vehicle: {fileID: 1751851189953844107, guid: e598ae7cf9791f041b86f2ce93c66df0,
+      type: 3}
+  - type: 2
+    vehicle: {fileID: -6367288071407118368, guid: 247a1b0f7acf17446835383ad8ce24a4,
+      type: 3}
+  - type: 3
+    vehicle: {fileID: -8347162914589023252, guid: f8342490e078802448599b028f3e0476,
+      type: 3}
 --- !u!114 &2738940101317344099
 MonoBehaviour:
   m_ObjectHideFlags: 0

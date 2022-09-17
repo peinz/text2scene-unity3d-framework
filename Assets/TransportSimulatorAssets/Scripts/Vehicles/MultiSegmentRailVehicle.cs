@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Vehicle {
 
-    public class MultiSegmentRailVehicle : MonoBehaviour, Vehicle.IVehicle
+    public class MultiSegmentRailVehicle : Vehicle
     {
         float VehicleMaxSpeed = 100f; 
         float sectionLength = 30f;
@@ -12,7 +12,7 @@ namespace Vehicle {
         List<GameObject> wagons = new List<GameObject>();
         List<int> wagonTargetIndexs = new List<int>();
         List<Vector3> targetWaypoints = new List<Vector3>();
-        public void SetPosition(Vector3 position)
+        public override void SetPosition(Vector3 position)
         {       
             transform.position = position;
             for(int i=0; i<wagons.Count; i++){
@@ -25,7 +25,7 @@ namespace Vehicle {
             for(int i=0; i<wagons.Count; i++) wagonTargetIndexs[i] = 0;
         }
 
-        public Vector3 GetPosition()
+        public override Vector3 GetPosition()
         {       
             return transform.position;
         }
@@ -35,11 +35,11 @@ namespace Vehicle {
             wagonTargetIndexs.Add(0);
         }
 
-        public void EnableLights(bool enableLights){
+        public override void EnableLights(bool enableLights){
             transform.GetChild(1).gameObject.SetActive(enableLights);
         }
 
-        public IEnumerator MoveTo(Vector3 targetPoint){
+        public override IEnumerator MoveTo(Vector3 targetPoint){
 
             transform.LookAt(targetPoint);
             targetWaypoints.Add(targetPoint);

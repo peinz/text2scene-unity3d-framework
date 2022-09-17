@@ -3737,6 +3737,8 @@ GameObject:
   - component: {fileID: 5552569319648695414}
   - component: {fileID: 2559367992566626572}
   - component: {fileID: 1616643612836970706}
+  - component: {fileID: 1450660574771638082}
+  - component: {fileID: -6352946750434206094}
   m_Layer: 0
   m_Name: Bus
   m_TagString: Untagged
@@ -3838,6 +3840,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0491753, y: 4.557396, z: 8.790671}
   m_Center: {x: -0.014707884, y: 0.3196513, z: -0.3261878}
+--- !u!114 &1450660574771638082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887266417510082149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d4470ab52ddf46ceab751c6797fc43f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-6352946750434206094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8887266417510082149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06bbe6fc7c71f44988ce9a5e5ebf901c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8923134636577272301
 GameObject:
   m_ObjectHideFlags: 0

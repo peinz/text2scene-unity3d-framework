@@ -5625,6 +5625,8 @@ GameObject:
   - component: {fileID: 7168165056284717516}
   - component: {fileID: 1004430133301566646}
   - component: {fileID: 8018234897903097709}
+  - component: {fileID: 1751851189953844107}
+  - component: {fileID: 2623015469502344631}
   m_Layer: 0
   m_Name: Subway
   m_TagString: Untagged
@@ -5788,6 +5790,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.358768, y: 4.207885, z: 18.455252}
   m_Center: {x: -0.023837646, y: 1.1152623, z: 2.0059853}
+--- !u!114 &1751851189953844107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6134230326284714975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9c80fcf09d54be6b9e64823c81d0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2623015469502344631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6134230326284714975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06bbe6fc7c71f44988ce9a5e5ebf901c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6166535197702636179
 GameObject:
   m_ObjectHideFlags: 0

@@ -560,6 +560,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9180611162403237777}
   - component: {fileID: 1288617696615940843}
+  - component: {fileID: -6367288071407118368}
+  - component: {fileID: 7060132676929098539}
   m_Layer: 0
   m_Name: Train
   m_TagString: Untagged
@@ -607,6 +609,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-6367288071407118368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5274644177887501698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9c80fcf09d54be6b9e64823c81d0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7060132676929098539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5274644177887501698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06bbe6fc7c71f44988ce9a5e5ebf901c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6750213519828494289
 GameObject:
   m_ObjectHideFlags: 0

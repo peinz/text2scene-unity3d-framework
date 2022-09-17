@@ -366,6 +366,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2497896988390151807}
   - component: {fileID: 8539434493574780291}
+  - component: {fileID: -8347162914589023252}
+  - component: {fileID: 4396717367694890147}
   m_Layer: 0
   m_Name: Tram
   m_TagString: Untagged
@@ -434,6 +436,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.358768, y: 4.207885, z: 18.455252}
   m_Center: {x: -0.023837646, y: 1.1152623, z: 2.0059853}
+--- !u!114 &-8347162914589023252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508998119660299372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9c80fcf09d54be6b9e64823c81d0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4396717367694890147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508998119660299372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06bbe6fc7c71f44988ce9a5e5ebf901c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1587921105964624070
 GameObject:
   m_ObjectHideFlags: 0
