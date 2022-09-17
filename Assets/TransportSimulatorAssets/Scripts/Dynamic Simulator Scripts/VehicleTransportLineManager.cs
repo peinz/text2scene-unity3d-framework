@@ -77,7 +77,9 @@ public class VehicleTransportLineManager : NetworkBehaviour
 
             // wait on station
             if (stationPoints.Contains(targetPoint)){
-                transporter?.StopTransporting();
+                if(transporter && transporter.stopTransportingOnNextHalt){
+                    transporter.StopTransporting();
+                }
                 yield return new WaitForSeconds(2f);
             }
 
