@@ -21417,6 +21417,7 @@ GameObject:
   - component: {fileID: 5663732225245233491}
   - component: {fileID: 5663732225245233481}
   - component: {fileID: 5663732225245233496}
+  - component: {fileID: 5663732225245233497}
   m_Layer: 2
   m_Name: XRRig Mouse Keyboard
   m_TagString: Untagged
@@ -21573,6 +21574,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5663732225245233497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663732225245233488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 119d7fbb862144a9993104707d0bd1fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &6585597582773498649
 CanvasRenderer:
   m_ObjectHideFlags: 0
