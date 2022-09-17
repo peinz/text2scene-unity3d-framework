@@ -5,6 +5,7 @@ namespace Vehicle {
     public class Transporter : MonoBehaviour
     {
         public GameObject entryPoint;
+        public GameObject seatLocation;
 
         GameObject objectToTransport;
 
@@ -22,9 +23,7 @@ namespace Vehicle {
 
             if(!objectToTransport) return;
 
-            var objectPosition = transform.position;
-            objectPosition.y = 15;
-            objectToTransport.transform.position = objectPosition;
+            objectToTransport.transform.position = seatLocation.transform.position;
         }
 
         public void StartTransporting(GameObject objectToTransport)
