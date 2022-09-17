@@ -43,8 +43,7 @@ public class VehicleTransportLineManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         spawnVehicle();
-        if(IsOwner) StartCoroutine(updateVehiclePosition());
-        else StartCoroutine(clientUpdateVehiclePosition());
+        StartCoroutine(updateVehiclePosition());
     }
 
     void spawnVehicle()
@@ -73,7 +72,6 @@ public class VehicleTransportLineManager : NetworkBehaviour
             // move vehicle
             vehicle.SetPosition(vehiclePosition.Value); // this is neccessary to set correct position for late joining clients
             yield return vehicle.MoveTo(targetPoint);
-            vehiclePosition.Value = vehicle.GetPosition();
 
             // wait on station
             if (stationPoints.Contains(targetPoint)){
@@ -83,26 +81,20 @@ public class VehicleTransportLineManager : NetworkBehaviour
                 yield return new WaitForSeconds(2f);
             }
 
-            // jump over gaps in path
-            if (lastNodePoints.Contains(targetPoint) && waypointIndex.Value < wayPoints.Count-1){
-                vehiclePosition.Value = wayPoints[waypointIndex.Value+1];
-            }
+            if(IsOwner){
+                vehiclePosition.Value = vehicle.GetPosition();
 
-            waypointIndex.Value++;
+                // jump over gaps in path
+                if (lastNodePoints.Contains(targetPoint) && waypointIndex.Value < wayPoints.Count-1){
+                    vehiclePosition.Value = wayPoints[waypointIndex.Value+1];
+                }
+
+                waypointIndex.Value++;
+            }
         }
 
         // route finished => destroy lineManager
         gameObject.Destroy();
-    }
-
-    IEnumerator clientUpdateVehiclePosition()
-    {
-        while(true){
-            vehicle.SetPosition(vehiclePosition.Value);
-            var targetPoint = wayPoints[waypointIndex.Value];
-            yield return vehicle.MoveTo(targetPoint);
-        }
-
     }
 
     void OnDestroy()
