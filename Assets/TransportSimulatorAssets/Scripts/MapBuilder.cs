@@ -51,8 +51,6 @@ class MapBuilder : MonoBehaviour
 
     Material inUse; 
 
-    bool StationsCreated = false;
-
     // This is used for the loading percentage window.
     float processed_items = 0f;
     int percentageAmount = 0;
@@ -67,24 +65,9 @@ class MapBuilder : MonoBehaviour
     {
         this.osmData = osmData;
 
-        if (!UserPreferences.Stations)
-        { 
-            StationsCreated = true;
-        }
-        else
-        {
-            StationBuilder(); // Stations are being built.
-        }
+        StationBuilder(); // Stations are being built.
 
-        while (!StationsCreated)
-        {
-            yield return null;
-        }
-
-        if(UserPreferences.PublicTransportRailways || UserPreferences.PublicTransportStreets)
-        {
-            StartCoroutine(WayBuilder()); // Roads and railroads are being instantiated.
-        }
+        yield return WayBuilder(); // Roads and railroads are being instantiated.
     }
 
     /// <summary>
@@ -97,44 +80,25 @@ class MapBuilder : MonoBehaviour
             switch (osmData.Relations[i].TransportType)
             {
                 case "subway":
-                    if (UserPreferences.Subways == true)
-                    {
-                        CreateStations(osmData.Relations[i]);
-                    }
+                    CreateStations(osmData.Relations[i]);
                     break;
                 case "tram":
-                    if (UserPreferences.Trams == true)
-                    {
-                        CreateStations(osmData.Relations[i]);
-                    }
+                    CreateStations(osmData.Relations[i]);
                     break;
                 case "train":
-                    if (UserPreferences.Trains == true)
-                    {
-                        CreateStations(osmData.Relations[i]);
-                    }
+                    CreateStations(osmData.Relations[i]);
                     break;
                 case "railway":
-                    if (UserPreferences.Railways == true)
-                    {
-                        CreateStations(osmData.Relations[i]);
-                    }
+                    CreateStations(osmData.Relations[i]);
                     break;
                 case "light_rail":
-                    if (UserPreferences.LightRails == true)
-                    {
-                        CreateStations(osmData.Relations[i]);
-                    }
+                    CreateStations(osmData.Relations[i]);
                     break;
                 case "bus":
-                    if (UserPreferences.Busses == true)
-                    {
-                        CreateStations(osmData.Relations[i]);
-                    }
+                    CreateStations(osmData.Relations[i]);
                     break;
             }
         }
-        StationsCreated = true;
     }
 
     /// <summary>
@@ -282,26 +246,13 @@ class MapBuilder : MonoBehaviour
                 InGameLoadingWindow.SetActive(false);
             }
 
-            if (w.Value.PublicTransportStreet && !UserPreferences.PublicTransportStreets) continue;
-            if (w.Value.PublicTransportRailway && !UserPreferences.PublicTransportRailways) continue;
-            if (w.Value.PublicTransportRailway){
-                if (w.Value.TransportTypes.Contains("subway") && !UserPreferences.Subways) continue;
-                if (w.Value.TransportTypes.Contains("tram") && !UserPreferences.Trams) continue;
-                if (w.Value.TransportTypes.Contains("train") && !UserPreferences.Trains) continue;
-                if (w.Value.TransportTypes.Contains("railway") && !UserPreferences.Railways) continue;
-                if (w.Value.TransportTypes.Contains("light_rail") && !UserPreferences.LightRails) continue;
-            }
-
             // Here we start the process of road/rail road instantiation.
             if (w.Value.PublicTransportStreet) {
                 inUse = bus_streets;
             }
             else if (w.Value.PublicTransportRailway) {
 
-                if(!UserPreferences.Subways && !UserPreferences.Trams && !UserPreferences.Trains && !UserPreferences.Railways && !UserPreferences.LightRails) {
-                    inUse = public_transport_railways;
-                }
-                else if (w.Value.TransportTypes.Contains("subway")) {
+                if (w.Value.TransportTypes.Contains("subway")) {
                     inUse = subways;
                 }
                 else if (w.Value.TransportTypes.Contains("tram")) {
@@ -331,7 +282,7 @@ class MapBuilder : MonoBehaviour
                 waytext.text += tramline + ", ";
             }
             Vector3 localOrigin = GetCentre(w.Value);
-            go.transform.position = (localOrigin - osmData.Bounds.Centre) + Vector3.up*500;
+            go.transform.position = (localOrigin - osmData.Bounds.Centre) + Vector3.up*0.1f;
 
 
             MeshFilter mf = go.AddComponent<MeshFilter>();

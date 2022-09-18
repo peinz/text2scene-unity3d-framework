@@ -65,10 +65,7 @@ class OsmWay : BaseOsm
 
         Tagger(node);
 
-        if ((UserPreferences.PublicTransportRailways && IsRailway == true) || (UserPreferences.PublicTransportStreets && IsStreet == true))
-        {
-            NodeIDsCreator(node);
-        }
+        NodeIDsCreator(node);
     }
 
     /// <summary>

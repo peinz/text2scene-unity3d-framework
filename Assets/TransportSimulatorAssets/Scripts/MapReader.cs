@@ -57,18 +57,9 @@ class MapReader
             // doc.Load(FileLoader.ResourceFilePath);
             doc.Load(path);
             SetBounds(doc.SelectSingleNode("/osm/bounds"));
-            if (UserPreferences.PublicTransportStreets || UserPreferences.PublicTransportRailways || UserPreferences.Stations)
-            {
-                GetNodes(doc.SelectNodes("/osm/node"));
-            }
-            if (UserPreferences.PublicTransportStreets || UserPreferences.PublicTransportRailways)
-            {
-                GetWays(doc.SelectNodes("/osm/way"));
-            }
-            if (UserPreferences.PublicTransportStreets || UserPreferences.PublicTransportRailways || UserPreferences.Stations)
-            {
-                GetRelations(doc.SelectNodes("/osm/relation"));
-            }
+            GetNodes(doc.SelectNodes("/osm/node"));
+            GetWays(doc.SelectNodes("/osm/way"));
+            GetRelations(doc.SelectNodes("/osm/relation"));
 
             return new OsmData(bounds, nodes, ways, relations);
         }
@@ -118,17 +109,11 @@ class MapReader
 
             if (way.IsRailway == true)
             {
-                if (UserPreferences.PublicTransportRailways)
-                {
-                    ways[way.ID] = way;
-                }
+                ways[way.ID] = way;
             }
             else if (way.IsStreet == true)
             {
-                if (UserPreferences.PublicTransportStreets)
-                {
-                    ways[way.ID] = way;
-                }
+                ways[way.ID] = way;
             }
         }
     }
@@ -148,24 +133,17 @@ class MapReader
             {
                 relations.Add(relation);
 
-                if (UserPreferences.PublicTransportRailways || UserPreferences.PublicTransportStreets)
+                TagPublicTransportWays(relation);
+                foreach (ulong NodeID in relation.StoppingNodeIDs)
                 {
-                    TagPublicTransportWays(relation);
-                }
-
-                if (UserPreferences.Stations)
-                {
-                    foreach (ulong NodeID in relation.StoppingNodeIDs)
+                    try
                     {
-                        try
-                        {
-                            nodes[NodeID].TransportLines.Add(relation.Name);
-                            relation.StationNames.Add(nodes[NodeID].StationName);
-                        }
-                        catch (KeyNotFoundException)
-                        {
-                            continue;
-                        }
+                        nodes[NodeID].TransportLines.Add(relation.Name);
+                        relation.StationNames.Add(nodes[NodeID].StationName);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        continue;
                     }
                 }
             }
