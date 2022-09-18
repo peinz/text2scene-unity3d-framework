@@ -30,9 +30,7 @@ using System.Xml;
 /// </summary>
 class OsmRelation : BaseOsm
 {
-    public bool Route { get; private set; }
-
-    public string TransportType { get; private set; }
+    public OsmRoute? Route { get; private set; }
 
     public string Name { get; private set; }
 
@@ -72,38 +70,32 @@ class OsmRelation : BaseOsm
                 switch (value)
                 {
                     case "subway":
-                        TransportType = "subway";
-                        Route = true;
+                        Route = OsmRoute.subway;
                         NameFinder(node);
                         RelationMembers(node);
                         break;
                     case "tram":
-                        TransportType = "tram";
-                        Route = true;
+                        Route = OsmRoute.tram;
                         NameFinder(node);
                         RelationMembers(node);
                         break;
                     case "train":
-                        TransportType = "train";
-                        Route = true;
+                        Route = OsmRoute.train;
                         NameFinder(node);
                         RelationMembers(node);
                         break;
                     case "railway":
-                        TransportType = "railway";
-                        Route = true;
+                        Route = OsmRoute.railway;
                         NameFinder(node);
                         RelationMembers(node);
                         break;
                     case "light_rail":
-                        TransportType = "light_rail";
-                        Route = true;
+                        Route = OsmRoute.light_rail;
                         NameFinder(node);
                         RelationMembers(node);
                         break;
                     case "bus":
-                        TransportType = "bus";
-                        Route = true;
+                        Route = OsmRoute.bus;
                         NameFinder(node);
                         RelationMembers(node);
                         break;

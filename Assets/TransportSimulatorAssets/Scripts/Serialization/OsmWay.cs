@@ -38,13 +38,11 @@ class OsmWay : BaseOsm
 
     public bool IsRailway { get; private set; }
 
-    public bool PublicTransportRailway { get; set; }
-
     public bool IsStreet { get; private set; }
 
     public bool PublicTransportStreet { get; set; }
 
-    public List<string> TransportTypes { get; set; }
+    public List<OsmRoute> Routes { get; set; }
 
     public List<string> TransportLines { get; set; }
 
@@ -57,7 +55,7 @@ class OsmWay : BaseOsm
     public OsmWay(XmlNode node)
     {
         NodeIDs = new List<ulong>();
-        TransportTypes = new List<string>();
+        Routes = new List<OsmRoute>();
         TransportLines = new List<string>();
         UnityCoordinates = new List<Vector3>();
 

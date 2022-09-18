@@ -1310,14 +1310,11 @@ MonoBehaviour:
     type: 3}
   StationUIPrefab: {fileID: 7191046848742822110, guid: 591b4222546e64c8a90e06929fb5b5c9,
     type: 3}
-  bus_streets: {fileID: 2100000, guid: 43b74dca1dc91f94c9b993af383e025a, type: 2}
-  public_transport_railways: {fileID: 2100000, guid: c7f44cc028318c0459e819f097a2e5b2,
-    type: 2}
-  subways: {fileID: 2100000, guid: b59923c6dba46fb489645930ae64efdc, type: 2}
-  trams: {fileID: 2100000, guid: 26ddc0848b211e44890b08c16821067d, type: 2}
-  trains: {fileID: 2100000, guid: abec031e7eb2c4e4994e7546aef6f77d, type: 2}
-  railway: {fileID: 2100000, guid: c7f44cc028318c0459e819f097a2e5b2, type: 2}
-  light_rails: {fileID: 2100000, guid: 875619072df5d124b97f63e0a8c41bf1, type: 2}
+  RouteMaterials:
+  - Type: 5
+    RouteMaterial: {fileID: 2100000, guid: 43b74dca1dc91f94c9b993af383e025a, type: 2}
+  - Type: 1
+    RouteMaterial: {fileID: 2100000, guid: 26ddc0848b211e44890b08c16821067d, type: 2}
 --- !u!1 &1500076447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1750,7 +1747,7 @@ MonoBehaviour:
           maximumHeight: 1
           extrusionScaleFactor: 1
         colliderOptions:
-          colliderType: 1
+          colliderType: 2
         materialOptions:
           style: 2
           texturingType: 0
