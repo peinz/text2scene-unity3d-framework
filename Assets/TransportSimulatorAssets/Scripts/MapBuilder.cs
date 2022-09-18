@@ -34,9 +34,6 @@ class MapBuilder : MonoBehaviour
 {
     public GameObject StationPrefab; // Station objects.
     public GameObject StationUIPrefab; // Station-UI.
-    public GameObject InGameLoadingScreen; // Shows the loading percentage.
-    public GameObject InGameLoadingMessage; // Shows loading message.
-    public GameObject InGameLoadingWindow; // Show loading windows.
 
     // Here are the various public transport colors stored which are used
     // upon generating the roads and railroads.
@@ -219,34 +216,8 @@ class MapBuilder : MonoBehaviour
     /// <returns></returns>
     IEnumerator WayBuilder()
     {
-        float TargetCount = osmData.Ways.Count;
-        Text PercentageDisplayer = InGameLoadingScreen.GetComponent<Text>();
-
-        InGameLoadingWindow.SetActive(true);
-
         foreach (KeyValuePair<ulong, OsmWay> w in osmData.Ways)
         {
-            // A simple loading progress logic, which returns the amount
-            // of processed items divided by the total number of items.
-            processed_items += 1;
-            float loadingPercentage = processed_items / TargetCount * 100;
-
-            if(loadingPercentage < 99) 
-            {
-                if(loadingPercentage > percentageAmount)
-                {
-                    percentageAmount += 1;
-                    PercentageDisplayer.text = percentageAmount.ToString() + "%";
-                }
-            }
-            else
-            {
-                InGameLoadingScreen.SetActive(false);
-                InGameLoadingMessage.SetActive(false);
-                InGameLoadingWindow.SetActive(false);
-            }
-
-            // Here we start the process of road/rail road instantiation.
             if (w.Value.PublicTransportStreet) {
                 inUse = bus_streets;
             }
