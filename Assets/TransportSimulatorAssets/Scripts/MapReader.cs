@@ -129,7 +129,7 @@ class MapReader
                     try
                     {
                         nodes[NodeID].TransportLines.Add(relation.Name);
-                        relation.StationNames.Add(nodes[NodeID].StationName);
+                        relation.StationNames.Add(nodes[NodeID].Name);
                     }
                     catch (KeyNotFoundException)
                     {

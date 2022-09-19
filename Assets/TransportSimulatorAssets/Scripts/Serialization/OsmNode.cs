@@ -43,9 +43,7 @@ class OsmNode : BaseOsm
 
     public float Y { get; private set; }
 
-    public string StationName { get; private set; }
-
-    public bool StationCreated { get; set; } 
+    public string Name { get; private set; }
 
     public List<string> TransportLines { get; set; }
 
@@ -87,7 +85,7 @@ class OsmNode : BaseOsm
             string key = GetAttribute<string>("k", t.Attributes);
             if (key == "name")
             {
-                StationName = GetAttribute<string>("v", t.Attributes);
+                Name = GetAttribute<string>("v", t.Attributes);
             }
         }
     }

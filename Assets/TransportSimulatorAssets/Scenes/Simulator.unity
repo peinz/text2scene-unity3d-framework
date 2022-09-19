@@ -1306,15 +1306,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e806f6e3db49e30418cb6d5c37648571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StationPrefab: {fileID: 890481587147454662, guid: 568a389e92968b641b3f3f32df98352e,
-    type: 3}
-  StationUIPrefab: {fileID: 7191046848742822110, guid: 591b4222546e64c8a90e06929fb5b5c9,
-    type: 3}
   RouteMaterials:
   - Type: 5
     RouteMaterial: {fileID: 2100000, guid: 43b74dca1dc91f94c9b993af383e025a, type: 2}
+    StationPrefab: {fileID: 3390537448128664032, guid: 6c71d12478db74feeaa6d884d22d706e,
+      type: 3}
   - Type: 1
     RouteMaterial: {fileID: 2100000, guid: 26ddc0848b211e44890b08c16821067d, type: 2}
+    StationPrefab: {fileID: 1945810177556543314, guid: 6178823f1e44946898af0e6256521e8f,
+      type: 3}
 --- !u!1 &1500076447
 GameObject:
   m_ObjectHideFlags: 0

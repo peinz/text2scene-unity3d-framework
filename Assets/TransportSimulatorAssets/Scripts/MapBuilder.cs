@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 /*
     Copyright (c) 2020 Alen Smajic
@@ -32,9 +31,6 @@ using UnityEngine.SceneManagement;
 /// </summary>
 class MapBuilder : MonoBehaviour
 {
-    public GameObject StationPrefab; // Station objects.
-    public GameObject StationUIPrefab; // Station-UI.
-
     // Here are the various public transport colors stored which are used
     // upon generating the roads and railroads.
     [System.Serializable]
@@ -42,11 +38,13 @@ class MapBuilder : MonoBehaviour
     {
         public OsmRoute Type;
         public Material RouteMaterial;
+        public Station StationPrefab;
     }
     public RouteEntry[] RouteMaterials;
     public static Material selected_way;
 
     OsmData osmData;
+    Dictionary<ulong, Station> createdStations = new Dictionary<ulong, Station>();
 
     /// <summary>
     /// This script will visualize osmData
@@ -75,105 +73,34 @@ class MapBuilder : MonoBehaviour
     {       
         foreach (ulong NodeID in r.StoppingNodeIDs)
         {
-            GameObject station_object;
-            GameObject stationUI_object;
-
-            try
-            {
-                // If a station has already been created using a node position, a new station will not
-                // be created there but the existing one will be augmented with the new information. This 
-                // avoids the case of multiple overlapping station object at one point.
-                if (osmData.Nodes[NodeID].StationCreated == true)
-                {
-                    List<GameObject> allObjects = new List<GameObject>();
-                    Scene scene = SceneManager.GetActiveScene();
-                    scene.GetRootGameObjects(allObjects);
-
-                    // We iterate over all Unity objects to find the station that has
-                    // already been generated at the certain point.
-                    for (int i = 5; i < allObjects.Count; i++)
-                    {
-                        if(allObjects[i].transform.position == osmData.Nodes[NodeID] - osmData.Bounds.Centre)
-                        {
-                            bool doubleFound = false;
-
-                            // Here we check if the new information that is being added to the station object,
-                            // has not already been stored inside the station object. This operation can be traced
-                            // back to a bug which I encountered during development, where the same information
-                            // was stored multiple times. The reason for this is still unclear, this is a workaround.
-                            GameObject Dropdown = allObjects[i].transform.GetChild(0).transform.GetChild(0).transform.GetChild(2).gameObject;
-                            var dropOptions = Dropdown.GetComponent<Dropdown>();
-                            for(int j = 0; j < dropOptions.options.Count; j++)
-                            {
-                                for(int k = 0; k < osmData.Nodes[NodeID].TransportLines.Count; k++)
-                                {
-                                    if(dropOptions.options[j].text == osmData.Nodes[NodeID].TransportLines[k])
-                                    {
-                                        doubleFound = true;
-                                        continue;
-                                    }
-                                }
-                            }
-                            if (!doubleFound)  // If no information is found, we add the new information here.
-                            {
-                                dropOptions.AddOptions(osmData.Nodes[NodeID].TransportLines);
-                                if (r.Route == OsmRoute.bus)
-                                {
-                                    // Activates the bus symbol in the UI.
-                                    allObjects[i].transform.GetChild(0).GetChild(0).transform.GetChild(4).gameObject.SetActive(true);
-                                }
-                                else
-                                {
-                                    // Activates the train symbol on the UI.
-                                    allObjects[i].transform.GetChild(0).GetChild(0).transform.GetChild(5).gameObject.SetActive(true);
-                                }
-                                continue;
-                            }
-                        }
-                    }
-                    continue;
-                }
-
-                station_object = Instantiate(StationPrefab) as GameObject;
-                OsmNode new_station = osmData.Nodes[NodeID];
-                Vector3 new_station_position = new_station - osmData.Bounds.Centre;
-                station_object.transform.position = new_station_position;
-
-                // Is being set so that on this position, no new stations are being generated.
-                osmData.Nodes[NodeID].StationCreated = true;
-
-                var stationUI_position = new_station_position;
-                stationUI_position.y += 2;
-                stationUI_position.x += 2;
-                stationUI_object = Instantiate(StationUIPrefab) as GameObject;
-                stationUI_object.transform.position = stationUI_position;
-                stationUI_object.transform.SetParent(station_object.transform.GetChild(0));
-                stationUI_object.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
-                stationUI_object.transform.localPosition = new Vector3(-1, 10, 0);
-
-                GameObject station_text = stationUI_object.transform.GetChild(1).gameObject;
-                Text OnScreenText = station_text.GetComponent<Text>();
-                OnScreenText.text = osmData.Nodes[NodeID].StationName;
-
-                GameObject TransportLineDropdown = stationUI_object.transform.GetChild(2).gameObject;
-                var dropDownOptions = TransportLineDropdown.GetComponent<Dropdown>();
-                dropDownOptions.AddOptions(osmData.Nodes[NodeID].TransportLines);
-
-                if(r.Route == OsmRoute.bus)
-                {
-                    // Activates the bus symbol on the UI.
-                    stationUI_object.transform.GetChild(4).gameObject.SetActive(true);
-                }
-                else
-                {
-                    // Activates the train symbol on the UI.
-                    stationUI_object.transform.GetChild(5).gameObject.SetActive(true);
-                }
-            }
-            catch (KeyNotFoundException)
-            {
+            if(!osmData.Nodes.ContainsKey(NodeID)){
                 continue;
             }
+
+            OsmNode stationNode = osmData.Nodes[NodeID];
+
+            Station stationPrefab = null;
+            foreach(var entry in RouteMaterials){
+                if(r.Route == entry.Type){
+                    stationPrefab = entry.StationPrefab;
+                    break;
+                }
+            }
+
+            if(stationPrefab == null) continue;
+
+            Station station;
+            if (createdStations.ContainsKey(NodeID)) station = createdStations[NodeID];
+            else {
+                station = Instantiate(stationPrefab);
+                station.transform.position = stationNode - osmData.Bounds.Centre;
+                station.SetName(stationNode.Name);
+
+                createdStations.Add(NodeID, station);
+            }
+
+            station.AddTransportLines(stationNode.TransportLines);
+
         }
     }
 
